@@ -1,4 +1,4 @@
-package com.thefuntasty.taste.resources;
+package com.thefuntasty.taste.res;
 
 import android.content.res.AssetManager;
 import android.content.res.Resources;
@@ -11,6 +11,8 @@ import android.support.annotation.IntegerRes;
 import android.support.annotation.PluralsRes;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 
 import com.thefuntasty.taste.Taste;
 
@@ -73,5 +75,11 @@ public class TRes {
 	@DrawableRes
 	public static int drawableIdentifier(String name) {
 		return resources().getIdentifier(name, "drawable", Taste.context().getPackageName());
+	}
+
+	public static Drawable drawableTint(@DrawableRes int id, @ColorRes int color) {
+		Drawable drawable = DrawableCompat.wrap(ResourcesCompat.getDrawable(Taste.context().getResources(), id, null));
+		DrawableCompat.setTint(drawable, color(color));
+		return drawable;
 	}
 }
