@@ -1,7 +1,8 @@
 package com.thefuntasty.taste.locale;
 
-import android.app.Application;
 import android.content.res.Configuration;
+
+import com.thefuntasty.taste.Taste;
 
 import java.util.Locale;
 
@@ -13,12 +14,12 @@ public class TLocale {
 		return new Locale(language, country);
 	}
 
-	public static void init(Application application, String l, String c) {
+	public static void set(String l, String c) {
 		language = l;
 		country = c;
 		Locale.setDefault(getLocale());
 		Configuration config = new Configuration();
 		config.locale = getLocale();
-		application.getResources().updateConfiguration(config, application.getResources().getDisplayMetrics());
+		Taste.context().getResources().updateConfiguration(config, Taste.context().getResources().getDisplayMetrics());
 	}
 }
