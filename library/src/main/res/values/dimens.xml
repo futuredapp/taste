@@ -57,4 +57,24 @@
 	<dimen name="g28">140dp</dimen>
 	<dimen name="g29">145dp</dimen>
 	<dimen name="g30">150dp</dimen>
+	<dimen name="g31">155dp</dimen>
+	<dimen name="g32">160dp</dimen>
+	<dimen name="g33">165dp</dimen>
+	<dimen name="g34">170dp</dimen>
+	<dimen name="g35">175dp</dimen>
+	<dimen name="g36">180dp</dimen>
+	<dimen name="g37">185dp</dimen>
+	<dimen name="g38">190dp</dimen>
+	<dimen name="g39">195dp</dimen>
+	<dimen name="g40">200dp</dimen>
+	<dimen name="g41">205dp</dimen>
+	<dimen name="g42">210dp</dimen>
+	<dimen name="g43">215dp</dimen>
+	<dimen name="g44">220dp</dimen>
+	<dimen name="g45">225dp</dimen>
+	<dimen name="g46">230dp</dimen>
+	<dimen name="g47">235dp</dimen>
+	<dimen name="g48">240dp</dimen>
+	<dimen name="g49">245dp</dimen>
+	<dimen name="g50">250dp</dimen>
 </resources>
