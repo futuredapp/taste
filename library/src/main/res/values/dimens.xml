@@ -26,6 +26,26 @@
 	<dimen name="s56">28sp</dimen>
 	<dimen name="s58">29sp</dimen>
 	<dimen name="s60">30sp</dimen>
+	<dimen name="s62">31sp</dimen>
+	<dimen name="s64">32sp</dimen>
+	<dimen name="s66">33sp</dimen>
+	<dimen name="s68">34sp</dimen>
+	<dimen name="s70">35sp</dimen>
+	<dimen name="s72">36sp</dimen>
+	<dimen name="s74">37sp</dimen>
+	<dimen name="s76">38sp</dimen>
+	<dimen name="s78">39sp</dimen>
+	<dimen name="s80">40sp</dimen>
+	<dimen name="s82">41sp</dimen>
+	<dimen name="s84">42sp</dimen>
+	<dimen name="s86">43sp</dimen>
+	<dimen name="s88">44sp</dimen>
+	<dimen name="s90">45sp</dimen>
+	<dimen name="s92">46sp</dimen>
+	<dimen name="s94">47sp</dimen>
+	<dimen name="s96">48sp</dimen>
+	<dimen name="s98">49sp</dimen>
+	<dimen name="s100">50sp</dimen>
 
 	<dimen name="g1">5dp</dimen>
 	<dimen name="g2">10dp</dimen>
