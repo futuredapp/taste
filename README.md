@@ -24,7 +24,7 @@ Add the dependency:
 
 ```
 dependencies {
-    compile 'org.bitbucket.thefuntasty:taste:1.0.3'
+    compile 'org.bitbucket.thefuntasty:taste:1.0.4'
 }
 ```
 
