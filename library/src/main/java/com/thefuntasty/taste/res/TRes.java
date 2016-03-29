@@ -64,12 +64,11 @@ public class TRes {
 	}
 
 	public static Drawable drawable(@DrawableRes int id) {
-		return ContextCompat.getDrawable(Taste.context(), id);
+		return ResourcesCompat.getDrawable(resources(), id, null);
 	}
 
 	public static Drawable drawable(String name) {
-		int drawableId = resources().getIdentifier(name, "drawable", Taste.context().getPackageName());
-		return drawable(drawableId);
+		return drawable(drawableIdentifier(name));
 	}
 
 	@DrawableRes
@@ -78,7 +77,7 @@ public class TRes {
 	}
 
 	public static Drawable drawableTint(@DrawableRes int id, @ColorRes int color) {
-		Drawable drawable = DrawableCompat.wrap(ResourcesCompat.getDrawable(Taste.context().getResources(), id, null));
+		Drawable drawable = DrawableCompat.wrap(drawable(id));
 		DrawableCompat.setTint(drawable, color(color));
 		return drawable;
 	}
