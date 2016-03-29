@@ -32,7 +32,6 @@ public class TKeyboard {
 
 	/**
 	 * Shows the soft keyboard
-	 *
 	 */
 	public static void showSoftKeyboard(View view) {
 		InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
