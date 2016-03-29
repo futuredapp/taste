@@ -82,4 +82,8 @@ public class TRes {
 		DrawableCompat.setTint(drawable, color(color));
 		return drawable;
 	}
+
+	public static int orientation() {
+		return resources().getConfiguration().orientation;
+	}
 }
