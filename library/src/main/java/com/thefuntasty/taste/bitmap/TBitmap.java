@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 
+import com.thefuntasty.taste.Taste;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,7 +29,7 @@ public class TBitmap {
 	public static File saveBitmapToFile(Bitmap bitmap, String filename) {
 		FileOutputStream fos = null;
 		try {
-			String filePath = App.context().getCacheDir().getPath() + File.separator + filename;
+			String filePath = Taste.context().getCacheDir().getPath() + File.separator + filename;
 			fos = new FileOutputStream(filePath);
 			bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 
