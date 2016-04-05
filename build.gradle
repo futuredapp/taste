@@ -18,7 +18,7 @@ allprojects {
     repositories {
         jcenter()
         maven { url "https://jitpack.io" }
-        maven {url "https://clojars.org/repo/"}
+        maven { url "https://clojars.org/repo/" }
     }
     tasks.withType(JavaCompile) {
         options.compilerArgs << "-Xlint:deprecation"
