@@ -1,12 +1,13 @@
 package com.thefuntasty.taste;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 public class Taste {
 
 	private static Context context;
 
-	public static void init(Context ctx) {
+	public static void init(@NonNull Context ctx) {
 		context = ctx.getApplicationContext();
 	}
 

@@ -5,7 +5,7 @@ import android.os.Looper;
 
 import com.squareup.otto.Bus;
 
-public class MainThreadBus extends Bus {
+public class TBus extends Bus {
 	private final Handler mHandler = new Handler(Looper.getMainLooper());
 
 	@Override

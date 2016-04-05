@@ -23,6 +23,7 @@
     @com.squareup.otto.Produce public *;
 }
 
+# Icepick
 -dontwarn icepick.**
 -keep class icepick.** { *; }
 -keep class **$$Icepick { *; }

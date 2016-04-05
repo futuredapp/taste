@@ -85,4 +85,8 @@ public class TRes {
 	public static int orientation() {
 		return resources().getConfiguration().orientation;
 	}
+
+	public static float dpToPx(float dp) {
+		return dp * resources().getDisplayMetrics().density;
+	}
 }
