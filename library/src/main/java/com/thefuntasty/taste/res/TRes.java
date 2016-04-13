@@ -78,7 +78,7 @@ public class TRes {
 
 	public static Drawable drawableTint(@DrawableRes int id, @ColorRes int color) {
 		Drawable drawable = DrawableCompat.wrap(drawable(id));
-		DrawableCompat.setTint(drawable, color(color));
+		DrawableCompat.setTint(drawable.mutate(), color(color));
 		return drawable;
 	}
 
