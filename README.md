@@ -42,8 +42,8 @@ public class App extends Application {
 
 ## Gradle tasks
 
-1. Open Android Studio and go to: File/Settings/Build/Compiler and add these command-line options: -PminSdk=21
-2. In your `build.gradle` add row: **apply from: 'https://bitbucket.org/thefuntasty/treasure-android/raw/master/gradle/common.gradle'**
+1. Open Android Studio and go to: File / Settings / Build / Compiler and add these command-line options: **-PminSdk=21**
+2. In your `build.gradle` add row: **apply from: 'https://bitbucket.org/thefuntasty/taste/raw/master/common.gradle'**
 3. Locate row `minSdkVersion 16` and replace it with: `minSdkVersion minSdk(16)`
 
 > Technical staff: release build is recognized by keystore
