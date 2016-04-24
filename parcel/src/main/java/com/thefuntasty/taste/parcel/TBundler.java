@@ -1,4 +1,4 @@
-package com.thefuntasty.taste.savestate;
+package com.thefuntasty.taste.parcel;
 
 import android.os.Bundle;
 

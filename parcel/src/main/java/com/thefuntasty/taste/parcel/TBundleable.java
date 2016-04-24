@@ -1,4 +1,4 @@
-package com.thefuntasty.taste.savestate;
+package com.thefuntasty.taste.parcel;
 
 /**
  * Interface used for (un)wrapping parcelable classes. Every class which is annotated with @Parcel
