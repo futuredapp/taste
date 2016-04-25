@@ -21,11 +21,18 @@ allprojects {
 Add the dependencies you need:
 
 ```groovy
-dependencies {
-    compile 'org.bitbucket.thefuntasty.taste:core:1.2.0'
-    compile 'org.bitbucket.thefuntasty.taste:parcel:1.2.0'
-    compile 'org.bitbucket.thefuntasty.taste:bus:1.2.0'
-}
+compile 'org.bitbucket.thefuntasty.taste:core:1.2.1'
+compile 'org.bitbucket.thefuntasty.taste:parcel:1.2.1'
+compile 'org.bitbucket.thefuntasty.taste:bus:1.2.1'
+```
+
+When using parcel module, do not forget to include [Android APT](https://bitbucket.org/hvisser/android-apt) plugin and add following annotation processors as apt dependency and Clojars repo as repository
+```groovy
+apt 'org.parceler:parceler:1.1.1'
+apt 'frankiesardo:icepick-processor:3.2.0'
+```
+```groovy
+maven { url "https://clojars.org/repo/" }
 ```
 
 ## Usage
