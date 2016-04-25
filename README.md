@@ -18,11 +18,13 @@ allprojects {
 }
 ```
 
-Add the dependency:
+Add the dependencies you need:
 
 ```groovy
 dependencies {
-    compile 'org.bitbucket.thefuntasty:taste:1.0.8'
+    compile 'org.bitbucket.thefuntasty.taste:core:1.2.0'
+    compile 'org.bitbucket.thefuntasty.taste:parcel:1.2.0'
+    compile 'org.bitbucket.thefuntasty.taste:bus:1.2.0'
 }
 ```
 
