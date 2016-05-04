@@ -17,11 +17,11 @@ public class EnvironmentModule implements DebugModule {
 
 	private Spinner spinner;
 	private final Context context;
-	private final EnvironmentModuleCallBack callback;
+	private final EnvironmentModuleCallback callback;
 	private List<Environment> list;
 	private boolean shouldCallback = false;
 
-	public EnvironmentModule(Context context, List list, EnvironmentModuleCallBack callback) {
+	public EnvironmentModule(Context context, List<Environment> list, EnvironmentModuleCallback callback) {
 		this.context = context;
 		this.callback = callback;
 		this.list = list;
@@ -29,11 +29,11 @@ public class EnvironmentModule implements DebugModule {
 
 	@NonNull @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent) {
-		View view = inflater.inflate(R.layout.module_api, parent, false);
+		View view = inflater.inflate(R.layout.module_environment, parent, false);
 
-		spinner = (Spinner) view.findViewById(R.id.api_module_spinner);
+		spinner = (Spinner) view.findViewById(R.id.environment_spinner);
 
-		ArrayAdapter adapter = new ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, list);
+		ArrayAdapter<Environment> adapter = new ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, list);
 		spinner.setAdapter(adapter);
 
 		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -78,7 +78,7 @@ public class EnvironmentModule implements DebugModule {
 	public void onStop() {
 	}
 
-	public interface EnvironmentModuleCallBack {
+	public interface EnvironmentModuleCallback {
 		void onEnvironmentSelected(Environment environment);
 	}
 }

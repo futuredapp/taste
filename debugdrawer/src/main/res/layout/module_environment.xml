@@ -3,23 +3,23 @@
 			  android:layout_width="match_parent"
 			  android:layout_height="match_parent"
 			  android:orientation="vertical"
-			  android:padding="10dp">
+			  android:padding="@dimen/g2">
 
 	<TextView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="API MODULE"
-		android:textColor="#FFFFFFFF"/>
+		android:text="@string/api_module"
+		android:textColor="@color/white"/>
 
 	<View
 		android:layout_width="match_parent"
 		android:layout_height="1dp"
-		android:layout_marginBottom="5dp"
-		android:layout_marginTop="5dp"
-		android:background="#FF33BBFF"/>
+		android:layout_marginBottom="@dimen/g1"
+		android:layout_marginTop="@dimen/g1"
+		android:background="@color/blue"/>
 
 	<Spinner
-		android:id="@+id/api_module_spinner"
+		android:id="@+id/environment_spinner"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"/>
 
