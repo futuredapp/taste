@@ -10,4 +10,9 @@ public class Environment {
 		this.name = name;
 		this.bundle = bundle;
 	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 }
