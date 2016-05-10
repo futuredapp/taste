@@ -1,7 +1,6 @@
 package com.thefuntasty.taste;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,21 +17,18 @@ import io.palaima.debugdrawer.base.DebugModule;
 
 public class EnvironmentModule implements DebugModule {
 
-	private final String SHARED_PREFS_KEY = "environmentModuleSharedPrefs";
-	private final String SHARED_PREFS_ITEM_KEY = "itemSelected";
+	private static int lastEnvironment = 0;
 
 	private Spinner spinner;
 	private final Context context;
 	private final EnvironmentModuleCallback callback;
 	private List<Environment> list;
 	private boolean shouldCallback = false;
-	SharedPreferences sharedPreferences;
 
 	public EnvironmentModule(Context context, List<Environment> list, EnvironmentModuleCallback callback) {
 		this.context = context;
 		this.list = list;
 		this.callback = callback;
-		this.sharedPreferences = context.getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE);
 	}
 
 	@NonNull @Override
@@ -49,10 +45,7 @@ public class EnvironmentModule implements DebugModule {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (shouldCallback) {
 					callback.onEnvironmentSelected(list.get((int) spinner.getSelectedItemId()));
-
-					SharedPreferences.Editor editor = sharedPreferences.edit();
-					editor.putInt(SHARED_PREFS_ITEM_KEY, ((int) spinner.getSelectedItemId()));
-					editor.apply();
+					lastEnvironment = (int) spinner.getSelectedItemId();
 				}
 				shouldCallback = true;
 			}
@@ -63,7 +56,7 @@ public class EnvironmentModule implements DebugModule {
 			}
 		});
 
-		spinner.setSelection(sharedPreferences.getInt(SHARED_PREFS_ITEM_KEY, 0), false);
+		spinner.setSelection(lastEnvironment);
 
 		return view;
 	}
