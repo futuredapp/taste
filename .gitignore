@@ -1,4 +1,3 @@
-<<<<<<< 96bda91ec6ec969d843c68c412813044146ee2c8
 # Built application files
 *.apk
 *.ap_
@@ -32,16 +31,12 @@ proguard/
 # Android Studio captures folder
 captures/
 =======
-.gradle
-/local.properties
 .DS_Store
 */build
 /build
 .idea
-*.apk
 *.iml
 crashlytics-build.properties
 com_crashlytics_export_strings.xml
 manifest-merger-release-report.txt
 /captures
->>>>>>> Initial commit
