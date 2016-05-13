@@ -2,7 +2,7 @@ package com.thefuntasty.taste.infinity;
 
 import android.support.annotation.IntDef;
 
-public class Constant {
+public class InfinityConstant {
 	public static final int IDLE = 0;
 	public static final int LOADING = 1;
 	public static final int FINISHED = 2;

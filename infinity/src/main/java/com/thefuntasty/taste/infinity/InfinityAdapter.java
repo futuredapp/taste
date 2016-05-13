@@ -12,12 +12,12 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements Filler, InfinityRemote {
+public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements InfinityFiller, InfinityRemote {
 	private static final int FOOTER = -10;
-	private @Constant.Status int loadingStatus;
+	private @InfinityConstant.Status int loadingStatus;
 
 	private ArrayList<T> content = new ArrayList<>();
-	private Filler<T> filler;
+	private InfinityFiller<T> filler;
 	private InfinityEventListener eventListener;
 
 	private int limit = 10;
@@ -52,7 +52,7 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 		View footer = LayoutInflater.from(parent.getContext()).inflate(getFooterLayout(), parent, false);
 		footer.setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) {
-				if (errorOccurred && loadingStatus != Constant.LOADING) {
+				if (errorOccurred && loadingStatus != InfinityConstant.LOADING) {
 					errorOccurred = false;
 					tryAgain();
 				}
@@ -95,7 +95,7 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 					int visibleItemCount = recyclerView.getChildCount();
 					int totalItemCount = linearLayoutManager.getItemCount();
 
-					if (!errorOccurred &&loadingStatus == Constant.IDLE && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+					if (!errorOccurred &&loadingStatus == InfinityConstant.IDLE && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
 						footerVisible = true;
 						requestNext();
 						recyclerView.scrollBy(0, 1);
@@ -131,14 +131,14 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 		}
 	}
 
-	public void setFiller(@NonNull Filler<T> filler) {
+	public void setFiller(@NonNull InfinityFiller<T> filler) {
 		this.filler = filler;
 		requestFirst(filler);
 	}
 
 	@UiThread
-	private void addDataAndResolveState(List<T> data, @Constant.Part int part) {
-		if (part == Constant.FIRST) {
+	private void addDataAndResolveState(List<T> data, @InfinityConstant.Part int part) {
+		if (part == InfinityConstant.FIRST) {
 			content.clear();
 			notifyDataSetChanged();
 		}
@@ -149,14 +149,14 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 		refreshFooter();
 		notifyItemRangeInserted(offset - data.size(), data.size());
 
-		if (part == Constant.FIRST && data.size() == 0) {
-			loadingStatus = Constant.IDLE;
+		if (part == InfinityConstant.FIRST && data.size() == 0) {
+			loadingStatus = InfinityConstant.IDLE;
 			onFirstEmpty();
 		} else if (data.size() < limit) {
 			setFinished();
 		} else {
 			setIdle(part);
-			if (part == Constant.FIRST) {
+			if (part == InfinityConstant.FIRST) {
 				onFirstLoaded();
 			} else {
 				onNextLoaded();
@@ -164,20 +164,20 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 		}
 	}
 
-	private void requestFirst(@NonNull Filler<T> filler) {
-		if (filler instanceof AsynchronousFiller) {
-			setLoading(Constant.FIRST);
+	private void requestFirst(@NonNull InfinityFiller<T> filler) {
+		if (filler instanceof AsynchronousInfinityFiller) {
+			setLoading(InfinityConstant.FIRST);
 			offset = 0;
 			refreshFooter();
-			((AsynchronousFiller<T>) filler).onLoad(limit, offset, new Callback<T>() {
+			((AsynchronousInfinityFiller<T>) filler).onLoad(limit, offset, new Callback<T>() {
 				@Override public void onData(List<T> list) {
-					addDataAndResolveState(list, Constant.FIRST);
+					addDataAndResolveState(list, InfinityConstant.FIRST);
 				}
 
 				@Override public void onError(Object payload) {
 					errorOccurred = true;
 					onFirstUnavailable(payload);
-					setIdle(Constant.FIRST);
+					setIdle(InfinityConstant.FIRST);
 					refreshFooter();
 				}
 			});
@@ -187,18 +187,18 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 	}
 
 	private void requestNext() {
-		if (filler instanceof AsynchronousFiller) {
-			setLoading(Constant.NEXT);
+		if (filler instanceof AsynchronousInfinityFiller) {
+			setLoading(InfinityConstant.NEXT);
 			refreshFooter();
-			((AsynchronousFiller<T>) filler).onLoad(limit, offset, new Callback<T>() {
+			((AsynchronousInfinityFiller<T>) filler).onLoad(limit, offset, new Callback<T>() {
 				@Override public void onData(List<T> list) {
-					addDataAndResolveState(list, Constant.NEXT);
+					addDataAndResolveState(list, InfinityConstant.NEXT);
 				}
 
 				@Override public void onError(Object payload) {
 					errorOccurred = true;
 					onNextUnavailable(payload);
-					setIdle(Constant.NEXT);
+					setIdle(InfinityConstant.NEXT);
 					refreshFooter();
 				}
 			});
@@ -214,9 +214,9 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 	}
 
 
-	private void setLoading(@Constant.Part int part) {
-		loadingStatus = Constant.LOADING;
-		if (part == Constant.FIRST) {
+	private void setLoading(@InfinityConstant.Part int part) {
+		loadingStatus = InfinityConstant.LOADING;
+		if (part == InfinityConstant.FIRST) {
 			onPreLoadFirst();
 		} else {
 			onPreLoadNext();
@@ -224,15 +224,15 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 	}
 
 	private void setFinished() {
-		loadingStatus = Constant.FINISHED;
+		loadingStatus = InfinityConstant.FINISHED;
 		onFinished();
 
 		footerVisible = false;
 		notifyDataSetChanged();
 	}
 
-	private void setIdle(@Constant.Part int part) {
-		loadingStatus = Constant.IDLE;
+	private void setIdle(@InfinityConstant.Part int part) {
+		loadingStatus = InfinityConstant.IDLE;
 	}
 
 	public void setOffset(int offset) {

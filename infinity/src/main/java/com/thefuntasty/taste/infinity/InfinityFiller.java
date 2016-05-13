@@ -4,8 +4,8 @@ import android.support.annotation.UiThread;
 
 import java.util.List;
 
-public interface Filler<T> {
-	interface AsynchronousFiller<T> extends Filler<T> {
+public interface InfinityFiller<T> {
+	interface AsynchronousInfinityFiller<T> extends InfinityFiller<T> {
 		void onLoad(int limit, int offset, Callback<T> callback);
 	}
 
