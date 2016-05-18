@@ -8,8 +8,6 @@ import java.util.UUID;
 public class TFile {
 
 	public static File temp() {
-		File dir = Environment.getExternalStorageDirectory();
-		dir.mkdirs();
-		return new File(dir, UUID.randomUUID().toString());
+		return new File(Environment.getExternalStorageDirectory(), UUID.randomUUID().toString());
 	}
 }

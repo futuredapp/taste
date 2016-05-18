@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class TIntent {
+
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	public static Intent createLibraryIntent(boolean allowMultiple) {
 		Intent intent = new Intent();
@@ -41,7 +42,7 @@ public class TIntent {
 	public static Bitmap getBitmapFromLibrary(Context c, Intent intent, int size) {
 		Uri uri = intent.getData();
 		if (isGoogleAppsUri(uri)) {
-			return decodeGooglePhotosStream(c, uri);
+			return decodeGooglePhotosStream(c, uri, size);
 		}
 		return TBitmap.getScaledBitmapFromPath(getPath(c, uri), size);
 	}
@@ -78,7 +79,8 @@ public class TIntent {
 	 * @param context The context.
 	 * @param uri     The Uri to query.
 	 */
-	public static String getPath(final Context context, final Uri uri) {
+	@TargetApi(Build.VERSION_CODES.KITKAT)
+	private static String getPath(final Context context, final Uri uri) {
 
 		final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
 
@@ -129,7 +131,7 @@ public class TIntent {
 		return null;
 	}
 
-	public static Bitmap decodeGooglePhotosStream(Context context, Uri uri) {
+	private static Bitmap decodeGooglePhotosStream(Context context, Uri uri, int size) {
 		InputStream is;
 		InputStream is2;
 		if (uri.getAuthority() != null) {
@@ -144,7 +146,7 @@ public class TIntent {
 				is.close();
 
 				BitmapFactory.Options options = new BitmapFactory.Options();
-				options.inSampleSize = TBitmap.calculateInSampleSize(o, 800, 800);
+				options.inSampleSize = TBitmap.calculateInSampleSize(o, size, size);
 
 				Bitmap bmp = BitmapFactory.decodeStream(is2, null, options);
 				is2.close();
@@ -171,7 +173,7 @@ public class TIntent {
 	 * @param selectionArgs (Optional) Selection arguments used in the query.
 	 * @return The value of the _data column, which is typically a file path.
 	 */
-	public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
+	private static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
 
 		Cursor cursor = null;
 		final String column = "_data";
@@ -197,7 +199,7 @@ public class TIntent {
 	 * @param uri The Uri to check.
 	 * @return Whether the Uri authority is ExternalStorageProvider.
 	 */
-	public static boolean isExternalStorageDocument(Uri uri) {
+	private static boolean isExternalStorageDocument(Uri uri) {
 		return "com.android.externalstorage.documents".equals(uri.getAuthority());
 	}
 
@@ -205,7 +207,7 @@ public class TIntent {
 	 * @param uri The Uri to check.
 	 * @return Whether the Uri authority is DownloadsProvider.
 	 */
-	public static boolean isDownloadsDocument(Uri uri) {
+	private static boolean isDownloadsDocument(Uri uri) {
 		return "com.android.providers.downloads.documents".equals(uri.getAuthority());
 	}
 
@@ -213,7 +215,7 @@ public class TIntent {
 	 * @param uri The Uri to check.
 	 * @return Whether the Uri authority is MediaProvider.
 	 */
-	public static boolean isMediaDocument(Uri uri) {
+	private static boolean isMediaDocument(Uri uri) {
 		return "com.android.providers.media.documents".equals(uri.getAuthority());
 	}
 
@@ -221,7 +223,7 @@ public class TIntent {
 	 * @param uri The Uri to check.
 	 * @return Whether the Uri authority is Google Photos.
 	 */
-	public static boolean isGoogleAppsUri(Uri uri) {
+	private static boolean isGoogleAppsUri(Uri uri) {
 		return "com.google.android.apps.photos.content".equals(uri.getAuthority()) ||
 				"com.google.android.apps.photos.contentprovider".equals(uri.getAuthority()) ||
 				"com.google.android.apps.docs.storage".equals(uri.getAuthority());

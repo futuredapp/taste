@@ -14,9 +14,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class TBitmap {
-	public static String toBase64(Bitmap bm) {
+
+	public static String toBase64(Bitmap bm, Bitmap.CompressFormat format, int quality) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		bm.compress(Bitmap.CompressFormat.JPEG, 90, baos);
+		bm.compress(format, quality, baos);
 
 		byte[] b = baos.toByteArray();
 		return Base64.encodeToString(b, Base64.DEFAULT);
@@ -35,7 +36,7 @@ public class TBitmap {
 			bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 
 			return new File(filePath);
-		} catch(FileNotFoundException e){
+		} catch (FileNotFoundException e) {
 			// nothing to do
 		} finally {
 			if (fos != null) {
