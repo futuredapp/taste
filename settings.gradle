@@ -1,1 +1,1 @@
-include ':core', ':bus', ':parcel', ':debugdrawer'
+include ':core', ':bus', ':parcel', ':debugdrawer', ':infinity'
