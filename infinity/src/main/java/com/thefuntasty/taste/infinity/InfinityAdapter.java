@@ -252,6 +252,10 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 		requestNext();
 	}
 
+	public ArrayList<T> getData() {
+		return content;
+	}
+
 	public void reset() {
 		footerVisible = false;
 		requestFirst(filler);
