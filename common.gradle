@@ -2,8 +2,8 @@ project.ext.minSdk = { int releaseMinSdk ->
     def minSdkPropertyName = 'minSdk'
     def passwordPropertyName = 'storePassword'
     def keyPropertyName = 'keyPassword'
-    def isRelease = {
+    def isDebug = {
         return project.hasProperty(passwordPropertyName) && project.property(passwordPropertyName) == 'android' && project.hasProperty(keyPropertyName) && project.property(keyPropertyName) == 'android'
     }
-    project.hasProperty(minSdkPropertyName) && !isRelease ? project.property(minSdkPropertyName) : releaseMinSdk
+    project.hasProperty(minSdkPropertyName) && isDebug ? project.property(minSdkPropertyName) : releaseMinSdk
 }
