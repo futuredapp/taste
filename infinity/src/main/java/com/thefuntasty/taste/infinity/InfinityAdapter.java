@@ -152,14 +152,15 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 		if (part == InfinityConstant.FIRST && data.size() == 0) {
 			loadingStatus = InfinityConstant.IDLE;
 			onFirstEmpty();
-		} else if (data.size() < limit) {
-			setFinished();
 		} else {
 			setIdle(part);
 			if (part == InfinityConstant.FIRST) {
 				onFirstLoaded();
 			} else {
 				onNextLoaded();
+			}
+			if (data.size() < limit) {
+				setFinished();
 			}
 		}
 	}
@@ -249,6 +250,10 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 
 	public void tryAgain() {
 		requestNext();
+	}
+
+	public ArrayList<T> getData() {
+		return content;
 	}
 
 	public void reset() {
