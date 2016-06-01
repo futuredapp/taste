@@ -162,7 +162,6 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 
 	public void setFiller(@NonNull InfinityFiller<T> filler) {
 		this.filler = filler;
-		requestFirst(filler);
 	}
 
 	@UiThread
