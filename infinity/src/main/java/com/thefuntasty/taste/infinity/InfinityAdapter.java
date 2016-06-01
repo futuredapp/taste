@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.UiThread;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 	private boolean errorOccurred = false;
 	private boolean footerVisible = false;
 	private RecyclerView.OnScrollListener onScrollListener;
+	private RecyclerView recyclerView;
 
 	public abstract RecyclerView.ViewHolder onCreateContentViewHolder(ViewGroup parent, int viewType);
 
@@ -80,12 +82,17 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 				((FooterViewHolder) holder).tryAgain.setVisibility(View.GONE);
 				((FooterViewHolder) holder).loading.setVisibility(View.VISIBLE);
 			}
+			if (recyclerView != null && recyclerView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+				StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+				layoutParams.setFullSpan(true);
+			}
 		}
 	}
 
 	@Override
 	public void onAttachedToRecyclerView(RecyclerView recyclerView) {
 		super.onAttachedToRecyclerView(recyclerView);
+		this.recyclerView = recyclerView;
 		if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
 			final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 			onScrollListener = new RecyclerView.OnScrollListener() {
@@ -95,13 +102,35 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 					int visibleItemCount = recyclerView.getChildCount();
 					int totalItemCount = linearLayoutManager.getItemCount();
 
-					if (!errorOccurred &&loadingStatus == InfinityConstant.IDLE && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+					if (!errorOccurred && loadingStatus == InfinityConstant.IDLE && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
 						footerVisible = true;
 						requestNext();
 						recyclerView.scrollBy(0, 1);
 					}
 				}
 
+			};
+			recyclerView.addOnScrollListener(onScrollListener);
+		} else if (recyclerView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+			final StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) recyclerView.getLayoutManager();
+			onScrollListener = new RecyclerView.OnScrollListener() {
+				@Override
+				public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+					int visibleItemCount = recyclerView.getChildCount();
+					int totalItemCount = staggeredGridLayoutManager.getItemCount();
+					int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+
+					staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions);
+					int lastVisibleItem = findMax(lastPositions);
+					staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
+					int firstVisibleItem = findMin(lastPositions);
+
+					if (!errorOccurred && loadingStatus == InfinityConstant.IDLE && (totalItemCount - visibleItemCount) <= firstVisibleItem) {
+						footerVisible = true;
+						requestNext();
+						recyclerView.scrollBy(0, 1);
+					}
+				}
 			};
 			recyclerView.addOnScrollListener(onScrollListener);
 		}
@@ -354,5 +383,25 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 				throw new IllegalStateException("Footer view doesn't contain View with id/loading or id/tryAgain");
 			}
 		}
+	}
+
+	private int findMax(int[] lastPositions) {
+		int max = Integer.MIN_VALUE;
+		for (int value : lastPositions) {
+			if (value > max) {
+				max = value;
+			}
+		}
+		return max;
+	}
+
+	private int findMin(int[] lastPositions) {
+		int min = Integer.MAX_VALUE;
+		for (int value : lastPositions) {
+			if (value != RecyclerView.NO_POSITION && value < min) {
+				min = value;
+			}
+		}
+		return min;
 	}
 }
