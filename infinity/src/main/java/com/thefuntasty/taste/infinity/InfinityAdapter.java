@@ -125,7 +125,7 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 					staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
 					int firstVisibleItem = findMin(lastPositions);
 
-					if (!errorOccurred && loadingStatus == InfinityConstant.IDLE && (totalItemCount - visibleItemCount) <= firstVisibleItem) {
+					if (!errorOccurred && loadingStatus == InfinityConstant.IDLE && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold) {
 						footerVisible = true;
 						requestNext();
 						recyclerView.scrollBy(0, 1);
