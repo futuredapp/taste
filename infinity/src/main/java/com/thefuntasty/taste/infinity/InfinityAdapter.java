@@ -1,5 +1,6 @@
 package com.thefuntasty.taste.infinity;
 
+import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.UiThread;
@@ -13,7 +14,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements InfinityFiller, InfinityRemote {
+@SuppressWarnings("unused")
+public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements InfinityRemote {
 	private static final int FOOTER = -10;
 	private @InfinityConstant.Status int loadingStatus;
 
@@ -27,6 +29,8 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 
 	private boolean errorOccurred = false;
 	private boolean footerVisible = false;
+	private boolean pullToRefresh = false;
+
 	private RecyclerView.OnScrollListener onScrollListener;
 	private RecyclerView recyclerView;
 
@@ -67,13 +71,13 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 	@Override
 	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		if (getItemViewType(position) == FOOTER) {
-			onBindFooterViewHolder(holder, position);
+			onBindFooterViewHolder(holder);
 		} else {
 			onBindContentViewHolder(holder, position);
 		}
 	}
 
-	public void onBindFooterViewHolder(RecyclerView.ViewHolder holder, int position) {
+	public void onBindFooterViewHolder(RecyclerView.ViewHolder holder) {
 		if (holder instanceof FooterViewHolder) {
 			if (errorOccurred) {
 				((FooterViewHolder) holder).loading.setVisibility(View.GONE);
@@ -125,7 +129,7 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 					staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions);
 					int firstVisibleItem = findMin(lastPositions);
 
-					if (!errorOccurred && loadingStatus == InfinityConstant.IDLE && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold) {
+					if (!errorOccurred && loadingStatus == InfinityConstant.IDLE && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
 						footerVisible = true;
 						requestNext();
 						recyclerView.scrollBy(0, 1);
@@ -179,11 +183,11 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 
 		if (part == InfinityConstant.FIRST && data.size() == 0) {
 			loadingStatus = InfinityConstant.IDLE;
-			onFirstEmpty();
+			onFirstEmpty(pullToRefresh);
 		} else {
 			setIdle(part);
 			if (part == InfinityConstant.FIRST) {
-				onFirstLoaded();
+				onFirstLoaded(pullToRefresh);
 			} else {
 				onNextLoaded();
 			}
@@ -194,46 +198,36 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 	}
 
 	private void requestFirst(@NonNull InfinityFiller<T> filler) {
-		if (filler instanceof AsynchronousInfinityFiller) {
-			setLoading(InfinityConstant.FIRST);
-			offset = 0;
-			refreshFooter();
-			((AsynchronousInfinityFiller<T>) filler).onLoad(limit, offset, new Callback<T>() {
-				@Override public void onData(List<T> list) {
-					addDataAndResolveState(list, InfinityConstant.FIRST);
-				}
+		setLoading(InfinityConstant.FIRST);
+		offset = 0;
+		refreshFooter();
+		filler.onLoad(limit, offset, new InfinityFiller.Callback<T>() {
+			@Override public void onData(List<T> list) {
+				addDataAndResolveState(list, InfinityConstant.FIRST);
+			}
 
-				@Override public void onError(Object payload) {
-					errorOccurred = true;
-					onFirstUnavailable(payload);
-					setIdle(InfinityConstant.FIRST);
-					refreshFooter();
-				}
-			});
-		} else {
-			throw new IllegalStateException("Unknown Filler Type");
-		}
+			@Override public void onError(Object payload) {
+				errorOccurred = true;
+				onFirstUnavailable(payload, pullToRefresh);
+				setIdle(InfinityConstant.FIRST);
+				refreshFooter();
+			}
+		});
 	}
 
 	private void requestNext() {
-		if (filler instanceof AsynchronousInfinityFiller) {
-			setLoading(InfinityConstant.NEXT);
-			refreshFooter();
-			((AsynchronousInfinityFiller<T>) filler).onLoad(limit, offset, new Callback<T>() {
-				@Override public void onData(List<T> list) {
-					addDataAndResolveState(list, InfinityConstant.NEXT);
-				}
+		filler.onLoad(limit, offset, new InfinityFiller.Callback<T>() {
+			@Override public void onData(List<T> list) {
+				addDataAndResolveState(list, InfinityConstant.NEXT);
+			}
 
-				@Override public void onError(Object payload) {
-					errorOccurred = true;
-					onNextUnavailable(payload);
-					setIdle(InfinityConstant.NEXT);
-					refreshFooter();
-				}
-			});
-		} else {
-			throw new IllegalStateException("Unknown Filler Type");
-		}
+			@Override public void onError(Object payload) {
+				errorOccurred = true;
+				onNextUnavailable(payload);
+				setIdle(InfinityConstant.NEXT);
+				refreshFooter();
+			}
+		});
 	}
 
 	private void refreshFooter() {
@@ -246,7 +240,7 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 	private void setLoading(@InfinityConstant.Part int part) {
 		loadingStatus = InfinityConstant.LOADING;
 		if (part == InfinityConstant.FIRST) {
-			onPreLoadFirst();
+			onPreLoadFirst(pullToRefresh);
 		} else {
 			onPreLoadNext();
 		}
@@ -286,6 +280,13 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 
 	public void reset() {
 		footerVisible = false;
+		pullToRefresh = false;
+		requestFirst(filler);
+	}
+
+	public void reset(boolean pullToRefresh) {
+		footerVisible = false;
+		this.pullToRefresh = pullToRefresh;
 		requestFirst(filler);
 	}
 
@@ -293,9 +294,11 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 	 * Called when list started to loading of first chunk
 	 * If overriding, do not forget call super
 	 */
-	@Override public void onPreLoadFirst() {
+	@Override
+	@CallSuper
+	public void onPreLoadFirst(boolean pullToRefresh) {
 		if (eventListener != null) {
-			eventListener.onPreLoadFirst();
+			eventListener.onPreLoadFirst(pullToRefresh);
 		}
 	}
 
@@ -303,7 +306,9 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 	 * Called when list started to loading content of next chunk
 	 * If overriding, do not forget call super
 	 */
-	@Override public void onPreLoadNext() {
+	@Override
+	@CallSuper
+	public void onPreLoadNext() {
 		if (eventListener != null) {
 			eventListener.onPreLoadNext();
 		}
@@ -313,9 +318,11 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 	 * Called when first chunk of data has been loaded
 	 * If overriding, do not forget call super
 	 */
-	@Override public void onFirstLoaded() {
+	@Override
+	@CallSuper
+	public void onFirstLoaded(boolean pullToRefresh) {
 		if (eventListener != null) {
-			eventListener.onFirstLoaded();
+			eventListener.onFirstLoaded(pullToRefresh);
 		}
 	}
 
@@ -323,7 +330,9 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 	 * Called when second or next chunk of data has been loaded
 	 * If overriding, do not forget call super
 	 */
-	@Override public void onNextLoaded() {
+	@Override
+	@CallSuper
+	public void onNextLoaded() {
 		if (eventListener != null) {
 			eventListener.onNextLoaded();
 		}
@@ -333,9 +342,11 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 	 * Called when first chunk of data is unavailable
 	 * If overriding, do not forget call super
 	 */
-	@Override public void onFirstUnavailable(Object payload) {
+	@Override
+	@CallSuper
+	public void onFirstUnavailable(Object payload, boolean pullToRefresh) {
 		if (eventListener != null) {
-			eventListener.onFirstUnavailable(payload);
+			eventListener.onFirstUnavailable(payload, pullToRefresh);
 		}
 	}
 
@@ -343,9 +354,11 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 	 * Called when first chunk of data is unavailable
 	 * If overriding, do not forget call super
 	 */
-	@Override public void onFirstEmpty() {
+	@Override
+	@CallSuper
+	public void onFirstEmpty(boolean pullToRefresh) {
 		if (eventListener != null) {
-			eventListener.onFirstEmpty();
+			eventListener.onFirstEmpty(pullToRefresh);
 		}
 	}
 
@@ -353,7 +366,9 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 	 * Called when second or next chunk of data is unavailable
 	 * If overriding, do not forget call super
 	 */
-	@Override public void onNextUnavailable(Object payload) {
+	@Override
+	@CallSuper
+	public void onNextUnavailable(Object payload) {
 		if (eventListener != null) {
 			eventListener.onNextUnavailable(payload);
 		}
@@ -363,7 +378,9 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 	 * Called when whole list have been loaded
 	 * If overriding, do not forget call super
 	 */
-	@Override public void onFinished() {
+	@Override
+	@CallSuper
+	public void onFinished() {
 		if (eventListener != null) {
 			eventListener.onFinished();
 		}

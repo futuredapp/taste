@@ -1,15 +1,15 @@
 package com.thefuntasty.taste.infinity;
 
 public interface InfinityRemote {
-	void onPreLoadFirst();
+	void onPreLoadFirst(boolean pullToRefresh);
 
 	void onPreLoadNext();
 
-	void onFirstLoaded();
+	void onFirstLoaded(boolean pullToRefresh);
 
-	void onFirstUnavailable(Object payload);
+	void onFirstUnavailable(Object payload, boolean pullToRefresh);
 
-	void onFirstEmpty();
+	void onFirstEmpty(boolean pullToRefresh);
 
 	void onNextLoaded();
 
