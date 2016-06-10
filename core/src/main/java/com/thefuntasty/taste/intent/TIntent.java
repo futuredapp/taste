@@ -226,6 +226,7 @@ public class TIntent {
 	private static boolean isGoogleAppsUri(Uri uri) {
 		return "com.google.android.apps.photos.content".equals(uri.getAuthority()) ||
 				"com.google.android.apps.photos.contentprovider".equals(uri.getAuthority()) ||
-				"com.google.android.apps.docs.storage".equals(uri.getAuthority());
+				"com.google.android.apps.docs.storage".equals(uri.getAuthority()) ||
+				"com.sec.android.gallery3d.provider".equals(uri.getAuthority());
 	}
 }
