@@ -13,8 +13,8 @@ public class TFont {
 
 	private static final SimpleArrayMap<String, Typeface> cache = new SimpleArrayMap<>();
 
-	public static final String TTF = "ttf";
-	public static final String OTF = "otf";
+	public static final String TTF = ".ttf";
+	public static final String OTF = ".otf";
 
 	@StringDef({TTF, OTF})
 	@Retention(RetentionPolicy.SOURCE)
@@ -40,7 +40,7 @@ public class TFont {
 	public static Typeface get(String name, @FontType String fontType) {
 		synchronized (cache) {
 			if (!cache.containsKey(name)) {
-				Typeface t = Typeface.createFromAsset(Taste.context().getAssets(), String.format("fonts/%s." + fontType, name));
+				Typeface t = Typeface.createFromAsset(Taste.context().getAssets(), "fonts/" + name + fontType);
 				cache.put(name, t);
 				return t;
 			}
