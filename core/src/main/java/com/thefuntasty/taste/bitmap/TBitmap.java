@@ -86,7 +86,6 @@ public class TBitmap {
 					srcBmp.getWidth()
 			);
 		}
-		srcBmp.recycle();
 		return dstBmp;
 	}
 }
