@@ -216,6 +216,7 @@ public abstract class InfinityAdapter<T> extends RecyclerView.Adapter implements
 	}
 
 	private void requestNext() {
+		setLoading(InfinityConstant.NEXT);
 		filler.onLoad(limit, offset, new InfinityFiller.Callback<T>() {
 			@Override public void onData(List<T> list) {
 				addDataAndResolveState(list, InfinityConstant.NEXT);
