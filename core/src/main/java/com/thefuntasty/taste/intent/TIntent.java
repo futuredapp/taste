@@ -39,12 +39,16 @@ public class TIntent {
 		return intent;
 	}
 
-	public static Bitmap getBitmapFromLibrary(Context c, Intent intent, int size) {
-		Uri uri = intent.getData();
+	public static Bitmap getBitmapFromLibrary(Context c, Uri uri, int size) {
 		if (isGoogleAppsUri(uri)) {
 			return decodeGooglePhotosStream(c, uri, size);
 		}
 		return TBitmap.getScaledBitmapFromPath(getPath(c, uri), size);
+	}
+
+	public static Bitmap getBitmapFromLibrary(Context c, Intent intent, int size) {
+		Uri uri = intent.getData();
+		return getBitmapFromLibrary(c, uri, size);
 	}
 
 	public static Bitmap getBitmapFromCamera(File f, int size) {
