@@ -1,6 +1,7 @@
 package com.thefuntasty.taste.intent;
 
 import android.annotation.TargetApi;
+import android.content.ClipData;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -13,12 +14,16 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 
 import com.thefuntasty.taste.bitmap.TBitmap;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TIntent {
 
@@ -74,6 +79,74 @@ public class TIntent {
 
 		return b;
 	}
+
+	public static List<Uri> getUrisFromLibrary(Context c, Intent data) {
+		List<Uri> imagesEncodedList = new ArrayList<>();
+
+		if (data.getData() != null) {
+			Uri fileUri = translateUriToFileUri(c, data.getData());
+			if (fileUri != null) {
+				imagesEncodedList.add(fileUri);
+			} else {
+				return null;
+			}
+		} else {
+			if (data.getClipData() != null) {
+				ClipData mClipData = data.getClipData();
+				for (int i = 0; i < mClipData.getItemCount(); i++) {
+					ClipData.Item item = mClipData.getItemAt(i);
+					Uri uri = item.getUri();
+					Uri fileUri = translateUriToFileUri(c, uri);
+					if (fileUri != null) {
+						imagesEncodedList.add(fileUri);
+					}
+				}
+			}
+		}
+
+		return imagesEncodedList;
+	}
+
+	@Nullable private static Uri translateUriToFileUri(Context c, Uri uri) {
+		if (isGoogleAppsUri(uri)) {
+			return googlePhotosToFile(c, uri);
+		}
+
+		String path = getPath(c, uri);
+		if (path != null) {
+			return Uri.fromFile(new File(path));
+		}
+
+		return null;
+	}
+
+	private static Uri googlePhotosToFile(Context c, Uri uri) {
+		if (uri.getAuthority() != null) {
+			try {
+				InputStream is = c.getContentResolver().openInputStream(uri);
+				File tempFile = File.createTempFile("tmp", "jpeg", c.getCacheDir());
+				FileOutputStream fos = new FileOutputStream(tempFile);
+
+				int read;
+				byte[] bytes = new byte[1024];
+
+				while ((read = is.read(bytes)) != -1) {
+					fos.write(bytes, 0, read);
+				}
+
+				return Uri.fromFile(tempFile);
+
+			} catch (IOException e) {
+				// nothing to do
+				return null;
+			} catch (NullPointerException e) {
+				// nothing to do
+				return null;
+			}
+		}
+		return null;
+	}
+
 
 	/**
 	 * Get a file path from a Uri. This will get the the path for Storage Access
