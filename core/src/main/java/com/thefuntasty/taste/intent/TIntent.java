@@ -224,6 +224,7 @@ public class TIntent {
 
 				BitmapFactory.Options options = new BitmapFactory.Options();
 				options.inSampleSize = TBitmap.calculateInSampleSize(o, size, size);
+				options.inPreferredConfig = Bitmap.Config.RGB_565;
 
 				Bitmap bmp = BitmapFactory.decodeStream(is2, null, options);
 				is2.close();

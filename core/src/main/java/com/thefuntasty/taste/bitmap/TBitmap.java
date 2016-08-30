@@ -53,6 +53,7 @@ public class TBitmap {
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(path, options);
 		options.inSampleSize = calculateInSampleSize(options, size, size);
+		options.inPreferredConfig = Bitmap.Config.RGB_565;
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeFile(path, options);
 	}
