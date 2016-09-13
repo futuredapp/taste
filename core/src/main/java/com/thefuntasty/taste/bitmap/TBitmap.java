@@ -3,6 +3,7 @@ package com.thefuntasty.taste.bitmap;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
@@ -10,6 +11,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import static android.graphics.BitmapFactory.decodeFile;
 
 public class TBitmap {
 
@@ -51,11 +54,44 @@ public class TBitmap {
 	public static Bitmap getScaledBitmapFromPath(String path, int size) {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(path, options);
+		decodeFile(path, options);
 		options.inSampleSize = calculateInSampleSize(options, size, size);
 		options.inPreferredConfig = Bitmap.Config.RGB_565;
 		options.inJustDecodeBounds = false;
-		return BitmapFactory.decodeFile(path, options);
+		Bitmap b = BitmapFactory.decodeFile(path, options);
+
+		try {
+			ExifInterface ei = new ExifInterface(path);
+			int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+
+			switch (orientation) {
+				case ExifInterface.ORIENTATION_ROTATE_90:
+					try {
+						b = TBitmap.rotateImage(b, 90);
+					} catch (OutOfMemoryError e) {
+						e.printStackTrace();
+					}
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_180:
+					try {
+						b = TBitmap.rotateImage(b, 180);
+					} catch (OutOfMemoryError e) {
+						e.printStackTrace();
+					}
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_270:
+					try {
+						b = TBitmap.rotateImage(b, 270);
+					} catch (OutOfMemoryError e) {
+						e.printStackTrace();
+					}
+					break;
+			}
+		} catch (Exception e) {
+			// Never mind
+		}
+
+		return b;
 	}
 
 	public static Bitmap rotateImage(Bitmap source, float angle) {

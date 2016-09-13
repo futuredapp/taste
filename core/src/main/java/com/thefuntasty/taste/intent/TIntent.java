@@ -58,25 +58,6 @@ public class TIntent {
 
 	public static Bitmap getBitmapFromCamera(File f, int size) {
 		Bitmap b = TBitmap.getScaledBitmapFromPath(f.getAbsolutePath(), size);
-		try {
-			ExifInterface ei = new ExifInterface(f.getAbsolutePath());
-			int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-
-			switch (orientation) {
-				case ExifInterface.ORIENTATION_ROTATE_90:
-					b = TBitmap.rotateImage(b, 90);
-					break;
-				case ExifInterface.ORIENTATION_ROTATE_180:
-					b = TBitmap.rotateImage(b, 180);
-					break;
-				case ExifInterface.ORIENTATION_ROTATE_270:
-					b = TBitmap.rotateImage(b, 270);
-					break;
-			}
-		} catch (IOException ioe) {
-			// Never mind
-		}
-
 		return b;
 	}
 
@@ -228,6 +209,37 @@ public class TIntent {
 
 				Bitmap bmp = BitmapFactory.decodeStream(is2, null, options);
 				is2.close();
+
+				try {
+					ExifInterface ei = new ExifInterface(getPath(context, uri));
+					int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+
+					switch (orientation) {
+						case ExifInterface.ORIENTATION_ROTATE_90:
+							try {
+								bmp = TBitmap.rotateImage(bmp, 90);
+							} catch (OutOfMemoryError e) {
+								e.printStackTrace();
+							}
+							break;
+						case ExifInterface.ORIENTATION_ROTATE_180:
+							try {
+								bmp = TBitmap.rotateImage(bmp, 180);
+							} catch (OutOfMemoryError e) {
+								e.printStackTrace();
+							}
+							break;
+						case ExifInterface.ORIENTATION_ROTATE_270:
+							try {
+								bmp = TBitmap.rotateImage(bmp, 270);
+							} catch (OutOfMemoryError e) {
+								e.printStackTrace();
+							}
+							break;
+					}
+				} catch (Exception e) {
+					// Never mind
+				}
 
 				return bmp;
 			} catch (IOException e) {
