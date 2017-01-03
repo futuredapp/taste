@@ -14,9 +14,9 @@ public class TLocale {
 		return new Locale(language, country);
 	}
 
-	public static void set(String l, String c) {
-		language = l;
-		country = c;
+	public static void set(String language, String country) {
+		TLocale.language = language;
+		TLocale.country = country;
 		Locale.setDefault(getLocale());
 		Configuration config = new Configuration();
 		config.locale = getLocale();
