@@ -4,7 +4,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="?attr/dropdownListPreferredItemHeight"
-	android:background="#FF222222"
+	android:background="@color/darkgray"
 	android:ellipsize="marquee"
-	android:singleLine="true"
+	android:lines="1"
 	android:textColor="@color/white"/>
