@@ -23,7 +23,6 @@ public class EnvironmentModule implements DebugModule {
 	private final Context context;
 	private final EnvironmentModuleCallback callback;
 	private List<Environment> list;
-	private boolean shouldCallback = false;
 
 	public EnvironmentModule(Context context, List<Environment> list, EnvironmentModuleCallback callback) {
 		this.context = context;
@@ -39,15 +38,12 @@ public class EnvironmentModule implements DebugModule {
 
 		ArrayAdapter<Environment> adapter = new ArrayAdapter<>(context, R.layout.environment_spinner_item, list);
 		spinner.setAdapter(adapter);
-
+		spinner.setSelection(lastEnvironment, false);
 		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (shouldCallback) {
-					callback.onEnvironmentSelected(list.get((int) spinner.getSelectedItemId()));
-					lastEnvironment = (int) spinner.getSelectedItemId();
-				}
-				shouldCallback = true;
+				callback.onEnvironmentSelected(list.get((int) spinner.getSelectedItemId()));
+				lastEnvironment = (int) spinner.getSelectedItemId();
 			}
 
 			@Override
@@ -55,8 +51,6 @@ public class EnvironmentModule implements DebugModule {
 
 			}
 		});
-
-		spinner.setSelection(lastEnvironment);
 
 		return view;
 	}
