@@ -42,6 +42,10 @@ public class EnvironmentModule implements DebugModule {
 		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if (position == lastEnvironment) {
+					return;
+				}
+
 				callback.onEnvironmentSelected(list.get((int) spinner.getSelectedItemId()));
 				lastEnvironment = (int) spinner.getSelectedItemId();
 			}
