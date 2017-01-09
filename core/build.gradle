@@ -10,6 +10,7 @@ android {
         targetSdkVersion 25
         consumerProguardFiles 'proguard-rules.pro'
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -18,9 +19,11 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:25.1.0'
     compile 'com.android.support:support-annotations:25.1.0'
+
+    // DI annotations
+    provided 'org.glassfish:javax.annotation:10.0-b28'
 }
 
 task sourcesJar(type: Jar) {
