@@ -6,13 +6,14 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 public class TKeyboard {
-	private TKeyboard() {
+
+	public TKeyboard() {
 	}
 
 	/**
 	 * Hides the soft keyboard
 	 */
-	public static void hideSoftKeyboard(Activity activity) {
+	public static void hide(Activity activity) {
 		View focusedView = activity.getCurrentFocus();
 		if (focusedView != null) {
 			InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -23,9 +24,9 @@ public class TKeyboard {
 	/**
 	 * Hides the soft keyboard
 	 */
-	public static void hideSoftKeyboard(Context context, View focusedView) {
+	public static void hide(View focusedView) {
 		if (focusedView != null) {
-			InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+			InputMethodManager inputMethodManager = (InputMethodManager) focusedView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 			inputMethodManager.hideSoftInputFromWindow(focusedView.getWindowToken(), 0);
 		}
 	}
@@ -33,7 +34,7 @@ public class TKeyboard {
 	/**
 	 * Shows the soft keyboard
 	 */
-	public static void showSoftKeyboard(View view) {
+	public static void show(View view) {
 		InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 		view.requestFocus();
 		inputMethodManager.showSoftInput(view, 0);
