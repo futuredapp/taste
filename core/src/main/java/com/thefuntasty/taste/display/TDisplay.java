@@ -27,4 +27,12 @@ public class TDisplay {
 		windowManager.getDefaultDisplay().getMetrics(metrics);
 		return metrics.heightPixels;
 	}
+
+	public int orientation() {
+		return context.getResources().getConfiguration().orientation;
+	}
+
+	public float dpToPx(float dp) {
+		return dp * context.getResources().getDisplayMetrics().density;
+	}
 }

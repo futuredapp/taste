@@ -86,12 +86,4 @@ public class TRes {
 		DrawableCompat.setTint(drawable.mutate(), color(color));
 		return drawable;
 	}
-
-	public int orientation() {
-		return resources().getConfiguration().orientation;
-	}
-
-	public float dpToPx(float dp) {
-		return dp * resources().getDisplayMetrics().density;
-	}
 }
