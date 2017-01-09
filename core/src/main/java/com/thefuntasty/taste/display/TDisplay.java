@@ -8,29 +8,23 @@ import com.thefuntasty.taste.Taste;
 
 public class TDisplay {
 
-	private static Integer windowWidth = null;
-	private static Integer windowHeight = null;
+	private final Context context;
 
-	public static int getWindowWidth() {
-		if (windowWidth == null) {
-			updateMetrics();
-		}
-
-		return windowWidth;
+	public TDisplay(Context context) {
+		this.context = context;
 	}
 
-	public static int getWindowHeight() {
-		if (windowHeight == null) {
-			updateMetrics();
-		}
-		return windowHeight;
-	}
-
-	private static void updateMetrics() {
+	public int getWindowWidth() {
 		DisplayMetrics metrics = new DisplayMetrics();
 		WindowManager windowManager = (WindowManager) Taste.context().getSystemService(Context.WINDOW_SERVICE);
 		windowManager.getDefaultDisplay().getMetrics(metrics);
-		windowWidth = metrics.widthPixels;
-		windowHeight = metrics.heightPixels;
+		return metrics.widthPixels;
+	}
+
+	public int getWindowHeight() {
+		DisplayMetrics metrics = new DisplayMetrics();
+		WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		windowManager.getDefaultDisplay().getMetrics(metrics);
+		return metrics.heightPixels;
 	}
 }
