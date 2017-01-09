@@ -7,6 +7,7 @@ import com.thefuntasty.taste.Taste;
 import java.util.Locale;
 
 public class TLocale {
+
 	private static String language = Locale.getDefault().getLanguage();
 	private static String country = Locale.getDefault().getCountry();
 

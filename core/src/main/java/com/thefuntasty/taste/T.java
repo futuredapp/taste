@@ -6,6 +6,7 @@ import com.thefuntasty.taste.res.TRes;
  * Static helper T
  */
 public class T {
+
 	private static TRes res;
 
 	/**
