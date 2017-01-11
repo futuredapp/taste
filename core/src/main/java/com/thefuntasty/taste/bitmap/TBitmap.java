@@ -33,16 +33,16 @@ public class TBitmap {
 
 	// region Base64
 
-	public static String toBase64(Bitmap bm, Bitmap.CompressFormat format, int quality) {
+	public static String toBase64(Bitmap sourceBitmap, Bitmap.CompressFormat format, int quality) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		bm.compress(format, quality, baos);
+		sourceBitmap.compress(format, quality, baos);
 
 		byte[] b = baos.toByteArray();
 		return Base64.encodeToString(b, Base64.DEFAULT);
 	}
 
-	public static Bitmap fromBase64(String s) {
-		byte[] decodedString = Base64.decode(s, Base64.DEFAULT);
+	public static Bitmap fromBase64(String source) {
+		byte[] decodedString = Base64.decode(source, Base64.DEFAULT);
 		return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 	}
 
@@ -60,23 +60,23 @@ public class TBitmap {
 		return retVal;
 	}
 
-	public static Bitmap getCroppedRectBitmap(Bitmap srcBmp) {
+	public static Bitmap getCroppedRectBitmap(Bitmap sourceBitmap) {
 		Bitmap dstBmp;
-		if (srcBmp.getWidth() >= srcBmp.getHeight()) {
+		if (sourceBitmap.getWidth() >= sourceBitmap.getHeight()) {
 			dstBmp = Bitmap.createBitmap(
-					srcBmp,
-					srcBmp.getWidth() / 2 - srcBmp.getHeight() / 2,
+					sourceBitmap,
+					sourceBitmap.getWidth() / 2 - sourceBitmap.getHeight() / 2,
 					0,
-					srcBmp.getHeight(),
-					srcBmp.getHeight()
+					sourceBitmap.getHeight(),
+					sourceBitmap.getHeight()
 			);
 		} else {
 			dstBmp = Bitmap.createBitmap(
-					srcBmp,
+					sourceBitmap,
 					0,
-					srcBmp.getHeight() / 2 - srcBmp.getWidth() / 2,
-					srcBmp.getWidth(),
-					srcBmp.getWidth()
+					sourceBitmap.getHeight() / 2 - sourceBitmap.getWidth() / 2,
+					sourceBitmap.getWidth(),
+					sourceBitmap.getWidth()
 			);
 		}
 		return dstBmp;
@@ -86,10 +86,10 @@ public class TBitmap {
 
 	// region Bitmap to/from File
 
-	public static void saveBitmapToFile(Bitmap bitmap, File f, Bitmap.CompressFormat format, int quality) {
+	public static void saveBitmapToFile(Bitmap bitmap, File destinationFile, Bitmap.CompressFormat format, int quality) {
 		FileOutputStream fos = null;
 		try {
-			fos = new FileOutputStream(f);
+			fos = new FileOutputStream(destinationFile);
 			bitmap.compress(format, quality, fos);
 		} catch (FileNotFoundException e) {
 			// nothing to do
@@ -104,11 +104,11 @@ public class TBitmap {
 		}
 	}
 
-	public static Bitmap getScaledBitmapFromPath(String path, int size) {
+	public static Bitmap getScaledBitmapFromPath(String path, int minimumEdgeSize) {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
 		decodeFile(path, options);
-		options.inSampleSize = calculateInSampleSize(options, size, size);
+		options.inSampleSize = calculateInSampleSize(options, minimumEdgeSize, minimumEdgeSize);
 		options.inPreferredConfig = Bitmap.Config.RGB_565;
 		options.inJustDecodeBounds = false;
 		Bitmap b = BitmapFactory.decodeFile(path, options);
@@ -147,29 +147,22 @@ public class TBitmap {
 		return b;
 	}
 
-	// endregion
-
-	// region Bitmap from Camera
-
-	public static Bitmap getBitmapFromCamera(File f, int size) {
-		Bitmap b = TBitmap.getScaledBitmapFromPath(f.getAbsolutePath(), size);
-		return b;
+	public static Bitmap getScaledBitmapFromFile(File destinationFile, int minimumEdgeSize) {
+		return TBitmap.getScaledBitmapFromPath(destinationFile.getAbsolutePath(), minimumEdgeSize);
 	}
-
-	// endregion
 
 	// region Bitmap from Library
 
-	public static Bitmap getBitmapFromLibrary(Context c, Uri uri, int size) {
+	public static Bitmap getScaledBitmapFromLibrary(Context c, Uri uri, int minimumEdgeSize) {
 		if (isGoogleAppsUri(uri)) {
-			return decodeGooglePhotosStream(c, uri, size);
+			return decodeGooglePhotosStream(c, uri, minimumEdgeSize);
 		}
-		return TBitmap.getScaledBitmapFromPath(getPath(c, uri), size);
+		return TBitmap.getScaledBitmapFromPath(getPath(c, uri), minimumEdgeSize);
 	}
 
-	public static Bitmap getBitmapFromLibrary(Context c, Intent intent, int size) {
+	public static Bitmap getScaledBitmapFromLibrary(Context c, Intent intent, int minimumEdgeSize) {
 		Uri uri = intent.getData();
-		return getBitmapFromLibrary(c, uri, size);
+		return getScaledBitmapFromLibrary(c, uri, minimumEdgeSize);
 	}
 
 	public static List<Uri> getUrisFromLibrary(Context c, Intent data) {
