@@ -7,7 +7,7 @@ import android.view.inputmethod.InputMethodManager;
 
 public class TKeyboard {
 
-	public TKeyboard() {
+	private TKeyboard() {
 	}
 
 	/**
