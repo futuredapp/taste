@@ -29,6 +29,8 @@ dependencies {
     compile 'io.reactivex:rxjava:1.2.5'
     compile 'com.google.dagger:dagger-android:2.8'
     provided 'org.glassfish:javax.annotation:10.0-b28'
+
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
 }
 
 task sourcesJar(type: Jar) {
