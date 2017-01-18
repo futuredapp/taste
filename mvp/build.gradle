@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion 25
@@ -27,4 +28,13 @@ dependencies {
     compile 'io.reactivex:rxjava:1.2.5'
     compile 'com.google.dagger:dagger-android:2.8'
     provided 'org.glassfish:javax.annotation:10.0-b28'
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
 }
