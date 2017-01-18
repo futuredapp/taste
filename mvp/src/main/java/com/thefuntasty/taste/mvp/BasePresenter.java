@@ -2,7 +2,7 @@ package com.thefuntasty.taste.mvp;
 
 import android.support.annotation.CallSuper;
 
-public class BasePresenter<T extends MvpView> implements Presenter<T> {
+public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
 
 	private T mvpView;
 
