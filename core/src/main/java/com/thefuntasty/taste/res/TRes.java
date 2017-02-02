@@ -89,6 +89,6 @@ public class TRes {
 	public Drawable drawableTint(Drawable drawable, @ColorRes int color) {
 		Drawable dr = DrawableCompat.wrap(drawable);
 		DrawableCompat.setTint(dr.mutate(), color(color));
-		return drawable;
+		return dr;
 	}
 }
