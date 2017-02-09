@@ -1,1 +1,1 @@
-include ':core', ':debugdrawer', ':mvp'
+include ':core', ':debugdrawer', ':mvp', ':testing'
