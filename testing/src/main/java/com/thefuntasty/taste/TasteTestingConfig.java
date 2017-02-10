@@ -4,54 +4,51 @@ import android.text.TextUtils;
 
 public class TasteTestingConfig {
 
-	private static String PACKAGE_NAME;
-	private static int LAUNCH_TIMEOUT = 10000;
-	private static int VIEW_TIMEOUT = 5000;
-	private static int SCREENSHOT_WAIT = 3;
-	private static int SCROLL_STEPS = 10;
-	private static int SCROLL_THRESHOLD = 10;
-	private static int SCROLL_TIMEOUT = 2000;
+	private String packageName;
 
-	private TasteTestingConfig() {
+	private int launchTimeout = 10000;
+	private int viewTimeout = 5000;
+	private int screenshotWait = 3;
+	private int scrollSteps = 10;
+	private int scrollThreshold = 10;
+	private int scrollTimeout = 2000;
 
+	public TasteTestingConfig(String packageName) {
+		this.packageName = packageName;
 	}
 
-	protected static void setPackageName(String packageName) {
-		PACKAGE_NAME = packageName;
+	public int getLaunchTimeout() {
+		return launchTimeout;
 	}
 
-	public static void setLaunchTimeout(int launchTimeout) {
-		LAUNCH_TIMEOUT = launchTimeout;
+	public int getViewTimeout() {
+		return viewTimeout;
 	}
 
-	public static String getPackageName() {
-		if (TextUtils.isEmpty(PACKAGE_NAME)) {
+	public int getScreenshotWait() {
+		return screenshotWait;
+	}
+
+	public int getScrollSteps() {
+		return scrollSteps;
+	}
+
+	public int getScrollThreshold() {
+		return scrollThreshold;
+	}
+
+	public int getScrollTimeout() {
+		return scrollTimeout;
+	}
+
+	public void setLaunchTimeout(int launchTimeout) {
+		this.launchTimeout = launchTimeout;
+	}
+
+	public String getPackageName() {
+		if (TextUtils.isEmpty(packageName)) {
 			throw new RuntimeException("Setting package name required. Use TasteTestingConfig.setPackageName()");
 		}
-		return PACKAGE_NAME;
-	}
-
-	public static int getLaunchTimeout() {
-		return LAUNCH_TIMEOUT;
-	}
-
-	public static int getViewTimeout() {
-		return VIEW_TIMEOUT;
-	}
-
-	public static int getScreenshotWait() {
-		return SCREENSHOT_WAIT;
-	}
-
-	public static int getScrollSteps() {
-		return SCROLL_STEPS;
-	}
-
-	public static int getScrollThreshold() {
-		return SCROLL_THRESHOLD;
-	}
-
-	public static int getScrollTimeout() {
-		return SCROLL_TIMEOUT;
+		return packageName;
 	}
 }

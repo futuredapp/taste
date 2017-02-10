@@ -12,7 +12,9 @@ import org.junit.Before;
 
 public abstract class TasteTestingScenario {
 
-	protected static UiDevice testDevice;
+	protected UiDevice testDevice;
+	protected TasteTestingRobot robot;
+	protected TasteTestingConfig config;
 
 	@Before
 	public void setUp() throws RemoteException {
@@ -20,6 +22,9 @@ public abstract class TasteTestingScenario {
 
 		// Initialize UiDevice instance
 		testDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+		String packageName = getPackageName();
+		config = new TasteTestingConfig(packageName);
+		robot = new TasteTestingRobot(testDevice,config);
 
 		if (!testDevice.isScreenOn()) {
 			testDevice.wakeUp();
@@ -28,15 +33,13 @@ public abstract class TasteTestingScenario {
 
 		// Launch the app
 		Context context = InstrumentationRegistry.getContext();
-		String packageName = getPackageName();
-		TasteTestingConfig.setPackageName(packageName);
 		final Intent intent = context.getPackageManager()
 				.getLaunchIntentForPackage(packageName);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);    // Clear out any previous instances
 		context.startActivity(intent);
 
 		// Wait for the login screen
-		testDevice.wait(Until.findObject(By.res(packageName, getWaitedForViewId())), TasteTestingConfig.getLaunchTimeout());
+		testDevice.wait(Until.findObject(By.res(packageName, getWaitedForViewId())), config.getLaunchTimeout());
 
 		afterSetUp();
 	}
