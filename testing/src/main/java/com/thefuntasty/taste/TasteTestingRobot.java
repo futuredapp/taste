@@ -47,8 +47,11 @@ public class TasteTestingRobot {
 		testDevice.wait(Until.findObject(By.desc("Navigate up")), config.getViewTimeout()).click();
 	}
 
-	public void openRightMenu() {
-		testDevice.wait(Until.findObject(By.res(config.getPackageName(), "menu_notification")), config.getViewTimeout()).click();
+	public void allowPermission() {
+		testDevice.wait(Until.findObject(By.res("com.android.packageinstaller", "permission_allow_button")), config.getViewTimeout()).click();
+	}
+	public void denyPermission() {
+		testDevice.wait(Until.findObject(By.res("com.android.packageinstaller", "permission_deny_button")), config.getViewTimeout()).click();
 	}
 
 	public void scroll(@TasteDirection.DirectionType int directionType) {
