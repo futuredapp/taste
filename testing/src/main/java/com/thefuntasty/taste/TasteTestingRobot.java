@@ -43,13 +43,10 @@ public class TasteTestingRobot {
 		testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).setText(writeText);
 	}
 
-	public void openLeftMenu() {
-		testDevice.wait(Until.findObject(By.desc("Navigate up")), config.getViewTimeout()).click();
-	}
-
 	public void allowPermission() {
 		testDevice.wait(Until.findObject(By.res("com.android.packageinstaller", "permission_allow_button")), config.getViewTimeout()).click();
 	}
+
 	public void denyPermission() {
 		testDevice.wait(Until.findObject(By.res("com.android.packageinstaller", "permission_deny_button")), config.getViewTimeout()).click();
 	}
@@ -120,6 +117,54 @@ public class TasteTestingRobot {
 			retry++;
 		}
 		while (retry <= config.getScrollThreshold());
+	}
+
+	public void dragViewById(@TasteDirection.DirectionType int directionType, String viewId) {
+		int screenWidth = testDevice.getDisplayWidth();
+		int screenHeight = testDevice.getDisplayHeight();
+		int viewX = testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).getVisibleCenter().x;
+		int viewY = testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).getVisibleCenter().y;
+
+		switch (directionType) {
+			case TasteDirection.DOWN:
+				testDevice.drag(viewX, viewY, viewX, viewY - screenHeight, config.getScrollSteps());
+				break;
+			case TasteDirection.UP:
+				testDevice.drag(viewX, viewY, viewX, viewY + screenHeight, config.getScrollSteps());
+				break;
+			case TasteDirection.LEFT:
+				testDevice.drag(viewX, viewY, viewX + screenWidth, viewY, config.getScrollSteps());
+				break;
+			case TasteDirection.RIGHT:
+				testDevice.drag(viewX, viewY, viewX - screenWidth, viewY, config.getScrollSteps());
+				break;
+			default:
+				throw new RuntimeException("Invalid scroll direction");
+		}
+	}
+
+	public void dragViewByText(@TasteDirection.DirectionType int directionType, String text) {
+		int screenWidth = testDevice.getDisplayWidth();
+		int screenHeight = testDevice.getDisplayHeight();
+		int viewX = testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).getVisibleCenter().x;
+		int viewY = testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).getVisibleCenter().y;
+
+		switch (directionType) {
+			case TasteDirection.DOWN:
+				testDevice.drag(viewX, viewY, viewX, viewY - screenHeight, config.getScrollSteps());
+				break;
+			case TasteDirection.UP:
+				testDevice.drag(viewX, viewY, viewX, viewY + screenHeight, config.getScrollSteps());
+				break;
+			case TasteDirection.LEFT:
+				testDevice.drag(viewX, viewY, viewX + screenWidth, viewY, config.getScrollSteps());
+				break;
+			case TasteDirection.RIGHT:
+				testDevice.drag(viewX, viewY, viewX - screenWidth, viewY, config.getScrollSteps());
+				break;
+			default:
+				throw new RuntimeException("Invalid scroll direction");
+		}
 	}
 
 	public void pressBack() {
