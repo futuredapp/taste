@@ -106,10 +106,10 @@ public class TasteTestingRobot {
 	public void scrollUntilId(@TasteDirection.DirectionType int directionType, String viewId) {
 		int retry = 0;
 		do {
-			halfScroll(directionType);
 			if (testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getScrollTimeout()) != null) {
 				break;
 			}
+			halfScroll(directionType);
 			retry++;
 		}
 		while (retry <= config.getScrollThreshold());
@@ -118,10 +118,10 @@ public class TasteTestingRobot {
 	public void scrollUntilText(@TasteDirection.DirectionType int directionType, String text) {
 		int retry = 0;
 		do {
-			halfScroll(directionType);
 			if (testDevice.wait(Until.findObject(By.text(text)), config.getScrollTimeout()) != null) {
 				break;
 			}
+			halfScroll(directionType);
 			retry++;
 		}
 		while (retry <= config.getScrollThreshold());
