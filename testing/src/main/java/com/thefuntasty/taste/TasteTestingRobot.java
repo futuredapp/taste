@@ -35,6 +35,14 @@ public class TasteTestingRobot {
 		testDevice.wait(Until.findObject(By.textContains(text)), config.getViewTimeout()).click();
 	}
 
+	public void tapByDescription(String contentDescription) {
+		testDevice.wait(Until.findObject(By.desc(contentDescription)), config.getViewTimeout()).click();
+	}
+
+	public void tapByContainedInDescription(String contentDescription) {
+		testDevice.wait(Until.findObject(By.descContains(contentDescription)), config.getViewTimeout()).click();
+	}
+
 	public void writeByText(String findText, String writeText) {
 		testDevice.wait(Until.findObject(By.text(findText)), config.getViewTimeout()).setText(writeText);
 	}
