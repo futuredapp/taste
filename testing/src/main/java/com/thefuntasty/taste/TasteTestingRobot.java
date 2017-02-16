@@ -247,6 +247,18 @@ public class TasteTestingRobot {
 		testDevice.takeScreenshot(TasteTestingSpoonWrapper.getScreenshotDirectory(name));
 	}
 
+	public void waitForIdScreenshot(String viewId, String name) {
+		if (testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()) != null) {
+			testDevice.takeScreenshot(TasteTestingSpoonWrapper.getScreenshotDirectory(name));
+		}
+	}
+
+	public void waitForTextScreenshot(String text, String name) {
+		if (testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()) != null) {
+			testDevice.takeScreenshot(TasteTestingSpoonWrapper.getScreenshotDirectory(name));
+		}
+	}
+
 	public void wait(int seconds) {
 		// This is ugly but it works
 		try {
