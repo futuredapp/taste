@@ -24,39 +24,75 @@ public class TasteTestingRobot {
 
 	// Actions
 	public void tapById(String viewId) {
-		testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).click();
+		try {
+			testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).click();
+		} catch (NullPointerException e) {
+			throw new TasteTestingException("View with id \"" + viewId + "\" not found", e);
+		}
 	}
 
 	public void tapByText(String text) {
-		testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).click();
+		try {
+			testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).click();
+		} catch (NullPointerException e) {
+			throw new TasteTestingException("View with text \"" + text + "\" not found", e);
+		}
 	}
 
 	public void tapByContainedText(String text) {
-		testDevice.wait(Until.findObject(By.textContains(text)), config.getViewTimeout()).click();
+		try {
+			testDevice.wait(Until.findObject(By.textContains(text)), config.getViewTimeout()).click();
+		} catch (NullPointerException e) {
+			throw new TasteTestingException("View with text that contains \"" + text + "\" not found", e);
+		}
 	}
 
 	public void tapByDescription(String contentDescription) {
-		testDevice.wait(Until.findObject(By.desc(contentDescription)), config.getViewTimeout()).click();
+		try {
+			testDevice.wait(Until.findObject(By.desc(contentDescription)), config.getViewTimeout()).click();
+		} catch (NullPointerException e) {
+			throw new TasteTestingException("View with content description \"" + contentDescription + "\" not found", e);
+		}
 	}
 
 	public void tapByContainedInDescription(String contentDescription) {
-		testDevice.wait(Until.findObject(By.descContains(contentDescription)), config.getViewTimeout()).click();
+		try {
+			testDevice.wait(Until.findObject(By.descContains(contentDescription)), config.getViewTimeout()).click();
+		} catch (NullPointerException e) {
+			throw new TasteTestingException("View with content description that contains \"" + contentDescription + "\" not found", e);
+		}
 	}
 
 	public void writeByText(String findText, String writeText) {
-		testDevice.wait(Until.findObject(By.text(findText)), config.getViewTimeout()).setText(writeText);
+		try {
+			testDevice.wait(Until.findObject(By.text(findText)), config.getViewTimeout()).setText(writeText);
+		} catch (NullPointerException e) {
+			throw new TasteTestingException("View with text \"" + findText + "\" not found", e);
+		}
 	}
 
 	public void writeById(String viewId, String writeText) {
-		testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).setText(writeText);
+		try {
+			testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).setText(writeText);
+		} catch (NullPointerException e) {
+			throw new TasteTestingException("View with id \"" + viewId + "\" not found", e);
+		}
 	}
 
 	public void allowPermission() {
-		testDevice.wait(Until.findObject(By.res("com.android.packageinstaller", "permission_allow_button")), config.getViewTimeout()).click();
+		try {
+			testDevice.wait(Until.findObject(By.res("com.android.packageinstaller", "permission_allow_button")), config.getViewTimeout()).click();
+		} catch (NullPointerException e) {
+			throw new TasteTestingException("Permission dialog not found", e);
+		}
 	}
 
 	public void denyPermission() {
-		testDevice.wait(Until.findObject(By.res("com.android.packageinstaller", "permission_deny_button")), config.getViewTimeout()).click();
+		try {
+			testDevice.wait(Until.findObject(By.res("com.android.packageinstaller", "permission_deny_button")), config.getViewTimeout()).click();
+		} catch (NullPointerException e) {
+			throw new TasteTestingException("Permission dialog not found", e);
+		}
 	}
 
 	public void scroll(@TasteDirection.DirectionType int directionType) {
@@ -77,7 +113,7 @@ public class TasteTestingRobot {
 				testDevice.drag(screenWidth - screenWidth / 4, screenHeight / 2, 0, screenHeight / 2, config.getScrollSteps());
 				break;
 			default:
-				throw new RuntimeException("Invalid scroll direction");
+				throw new TasteTestingException("Invalid scroll direction");
 		}
 	}
 
@@ -99,7 +135,7 @@ public class TasteTestingRobot {
 				testDevice.drag(screenWidth - screenWidth / 4, screenHeight / 2, screenWidth / 2, screenHeight / 2, config.getScrollSteps());
 				break;
 			default:
-				throw new RuntimeException("Invalid scroll direction");
+				throw new TasteTestingException("Invalid scroll direction");
 		}
 	}
 
@@ -147,7 +183,7 @@ public class TasteTestingRobot {
 				testDevice.drag(viewX, viewY, viewX - screenWidth, viewY, config.getScrollSteps());
 				break;
 			default:
-				throw new RuntimeException("Invalid scroll direction");
+				throw new TasteTestingException("Invalid drag direction");
 		}
 	}
 
@@ -171,7 +207,7 @@ public class TasteTestingRobot {
 				testDevice.drag(viewX, viewY, viewX - screenWidth, viewY, config.getScrollSteps());
 				break;
 			default:
-				throw new RuntimeException("Invalid scroll direction");
+				throw new TasteTestingException("Invalid drag direction");
 		}
 	}
 
@@ -187,83 +223,87 @@ public class TasteTestingRobot {
 		try {
 			testDevice.pressRecentApps();
 		} catch (RemoteException e) {
-			e.printStackTrace();
+			throw new TasteTestingException(e);
 		}
 	}
 
 	// Assertions
 	public void notPresentByText(String text) {
-		assertNull(testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()));
+		assertNull("Text \"" + text + "\" should not be present", testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()));
 	}
 
 	public void notPresentById(String viewId) {
-		assertNull(testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()));
+		assertNull("View with id \"" + viewId + "\" should not be present", testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()));
 	}
 
 	public void presentByText(String text) {
-		assertNotNull(testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()));
+		assertNotNull("Text \"" + text + "\" is not present", testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()));
 	}
 
 	public void presentById(String viewId) {
-		assertNotNull(testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()));
+		assertNotNull("View with id \"" + viewId + "\" is not present", testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()));
 	}
 
 	public void textInIdEquals(String viewId, String text) {
-		assertTrue(testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).getText().equals(text));
+		assertTrue("Text in view with id \"" + viewId + "\" is not \"" + text + "\"", testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).getText().equals(text));
 	}
 
 	public void textInIdContains(String viewId, String text) {
-		assertTrue(testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).getText().contains(text));
+		assertTrue("Text in view with id \"" + viewId + "\" does not contain \"" + text + "\"", testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).getText().contains(text));
 	}
 
 	public void textInIdDiffer(String viewId, String text) {
-		assertFalse(testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).getText().equals(text));
+		assertFalse("Text in view with id \"" + viewId + "\" should not be \"" + text + "\"", testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).getText().equals(text));
 	}
 
 	public void enabledById(String viewId) {
-		assertTrue(testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).isEnabled());
+		assertTrue("View with id \"" + viewId + "\" should not be enabled", testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).isEnabled());
 	}
 
 	public void disabledById(String viewId) {
-		assertFalse(testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).isEnabled());
+		assertFalse("View with id \"" + viewId + "\" should not be disabled", testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).isEnabled());
 	}
 
 	public void checkedById(String viewId) {
-		assertTrue(testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).isChecked());
+		assertTrue("View with id \"" + viewId + "\" is not checked", testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).isChecked());
 	}
 
 	public void notCheckedById(String viewId) {
-		assertFalse(testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).isChecked());
+		assertFalse("View with id \"" + viewId + "\" should not be checked", testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).isChecked());
 	}
 
 	public void checkedByText(String text) {
-		assertTrue(testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).isChecked());
+		assertTrue("View with text \"" + text + "\" is not checked", testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).isChecked());
 	}
 
 	public void notCheckedByText(String text) {
-		assertFalse(testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).isChecked());
+		assertFalse("View with text \"" + text + "\" should not be checked", testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).isChecked());
 	}
 
 	public void selectedById(String viewId) {
-		assertTrue(testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).isSelected());
+		assertTrue("View with id \"" + viewId + "\" is not selected", testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).isSelected());
 	}
 
 	public void notSelectedById(String viewId) {
-		assertFalse(testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).isSelected());
+		assertFalse("View with id \"" + viewId + "\" should not be selected", testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).isSelected());
 	}
 
 	public void selectedByText(String text) {
-		assertTrue(testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).isSelected());
+		assertTrue("View with text \"" + text + "\" is not selected", testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).isSelected());
 	}
 
 	public void notSelectedByText(String text) {
-		assertFalse(testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).isSelected());
+		assertFalse("View with text \"" + text + "\" should not be selected", testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).isSelected());
 	}
 
 	// Misc
 
 	public String getTextById(String viewId) {
-		return testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).getText();
+		try {
+			return testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).getText();
+		} catch (NullPointerException e) {
+			throw new TasteTestingException("View with id \"" + viewId + "\" not found", e);
+		}
 	}
 
 	public void takeScreenshot(String name) {
@@ -271,15 +311,19 @@ public class TasteTestingRobot {
 		testDevice.takeScreenshot(TasteTestingSpoonWrapper.getScreenshotDirectory(name));
 	}
 
-	public void waitForIdScreenshot(String viewId, String name) {
+	public void waitForIdAndTakeScreenshot(String viewId, String name) {
 		if (testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()) != null) {
 			testDevice.takeScreenshot(TasteTestingSpoonWrapper.getScreenshotDirectory(name));
+		} else {
+			throw new TasteTestingException("View with id \"" + viewId + "\" not found");
 		}
 	}
 
-	public void waitForTextScreenshot(String text, String name) {
+	public void waitForTextAndTakeScreenshot(String text, String name) {
 		if (testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()) != null) {
 			testDevice.takeScreenshot(TasteTestingSpoonWrapper.getScreenshotDirectory(name));
+		} else {
+			throw new TasteTestingException("View with text \"" + text + "\" not found");
 		}
 	}
 
@@ -290,9 +334,5 @@ public class TasteTestingRobot {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void waitForAnimation() {
-		testDevice.waitForWindowUpdate(config.getPackageName(), config.getViewTimeout());
 	}
 }
