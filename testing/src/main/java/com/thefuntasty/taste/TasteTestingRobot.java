@@ -236,6 +236,14 @@ public class TasteTestingRobot {
 		assertFalse(testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).isChecked());
 	}
 
+	public void checkedByText(String text) {
+		assertTrue(testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).isChecked());
+	}
+
+	public void notCheckedByText(String text) {
+		assertFalse(testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).isChecked());
+	}
+
 	// Misc
 
 	public String getTextById(String viewId) {
