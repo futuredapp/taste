@@ -244,6 +244,22 @@ public class TasteTestingRobot {
 		assertFalse(testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).isChecked());
 	}
 
+	public void selectedById(String viewId) {
+		assertTrue(testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).isSelected());
+	}
+
+	public void notSelectedById(String viewId) {
+		assertFalse(testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).isSelected());
+	}
+
+	public void selectedByText(String text) {
+		assertTrue(testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).isSelected());
+	}
+
+	public void notSelectedByText(String text) {
+		assertFalse(testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).isSelected());
+	}
+
 	// Misc
 
 	public String getTextById(String viewId) {
