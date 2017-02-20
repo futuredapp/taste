@@ -41,8 +41,12 @@ public class TasteTestingConfig {
 		return scrollTimeout;
 	}
 
-	public void setLaunchTimeout(int launchTimeout) {
-		this.launchTimeout = launchTimeout;
+	public void setLaunchTimeout(int millis) {
+		this.launchTimeout = millis;
+	}
+
+	public void setViewTimeout(int millis) {
+		this.viewTimeout = millis;
 	}
 
 	public String getPackageName() {
