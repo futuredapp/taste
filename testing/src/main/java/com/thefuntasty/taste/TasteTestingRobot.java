@@ -311,18 +311,14 @@ public class TasteTestingRobot {
 		testDevice.takeScreenshot(TasteTestingSpoonWrapper.getScreenshotDirectory(name));
 	}
 
-	public void waitForIdAndTakeScreenshot(String viewId, String name) {
-		if (testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()) != null) {
-			testDevice.takeScreenshot(TasteTestingSpoonWrapper.getScreenshotDirectory(name));
-		} else {
+	public void waitForId(String viewId) {
+		if (testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()) == null) {
 			throw new TasteTestingException("View with id \"" + viewId + "\" not found");
 		}
 	}
 
-	public void waitForTextAndTakeScreenshot(String text, String name) {
-		if (testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()) != null) {
-			testDevice.takeScreenshot(TasteTestingSpoonWrapper.getScreenshotDirectory(name));
-		} else {
+	public void waitForText(String text) {
+		if (testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()) == null) {
 			throw new TasteTestingException("View with text \"" + text + "\" not found");
 		}
 	}
