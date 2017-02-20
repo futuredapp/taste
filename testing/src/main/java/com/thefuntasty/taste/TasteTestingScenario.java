@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.Until;
 
 import org.junit.Before;
 
@@ -24,7 +22,7 @@ public abstract class TasteTestingScenario {
 		testDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 		String packageName = getPackageName();
 		config = new TasteTestingConfig(packageName);
-		robot = new TasteTestingRobot(testDevice,config);
+		robot = new TasteTestingRobot(testDevice, config);
 
 		if (!testDevice.isScreenOn()) {
 			testDevice.wakeUp();
@@ -39,7 +37,7 @@ public abstract class TasteTestingScenario {
 		context.startActivity(intent);
 
 		// Wait for the login screen
-		testDevice.wait(Until.findObject(By.res(packageName, getWaitedForViewId())), config.getLaunchTimeout());
+		robot.waitForId(getWaitedForViewId(), config.getLaunchTimeout());
 
 		afterSetUp();
 	}
