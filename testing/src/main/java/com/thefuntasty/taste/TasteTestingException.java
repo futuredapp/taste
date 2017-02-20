@@ -1,6 +1,6 @@
 package com.thefuntasty.taste;
 
-public class TasteTestingException extends RuntimeException{
+public class TasteTestingException extends RuntimeException {
 	public TasteTestingException(String message) {
 		super(message);
 	}
