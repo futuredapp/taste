@@ -317,8 +317,20 @@ public class TasteTestingRobot {
 		}
 	}
 
+	public void waitForId(String viewId, int seconds) {
+		if (testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), 1000 * seconds) == null) {
+			throw new TasteTestingException("View with id \"" + viewId + "\" not found");
+		}
+	}
+
 	public void waitForText(String text) {
 		if (testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()) == null) {
+			throw new TasteTestingException("View with text \"" + text + "\" not found");
+		}
+	}
+
+	public void waitForText(String text, int seconds) {
+		if (testDevice.wait(Until.findObject(By.text(text)), 1000 * seconds) == null) {
 			throw new TasteTestingException("View with text \"" + text + "\" not found");
 		}
 	}
