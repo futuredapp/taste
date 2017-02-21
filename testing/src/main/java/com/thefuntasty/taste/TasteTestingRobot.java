@@ -402,7 +402,6 @@ public class TasteTestingRobot {
 	}
 
 	public void takeScreenshot(String name) {
-		wait(config.getScreenshotWait());
 		testDevice.takeScreenshot(TasteTestingSpoonWrapper.getScreenshotDirectory(name));
 	}
 
