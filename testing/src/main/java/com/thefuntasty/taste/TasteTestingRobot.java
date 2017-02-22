@@ -232,6 +232,10 @@ public class TasteTestingRobot {
 		}
 	}
 
+	public void closeKeyboard() {
+		testDevice.pressBack();
+	}
+
 	public void pressBack() {
 		testDevice.pressBack();
 		testDevice.waitForWindowUpdate(null, config.getViewTimeout());
