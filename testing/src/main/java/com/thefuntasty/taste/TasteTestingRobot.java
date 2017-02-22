@@ -27,6 +27,7 @@ public class TasteTestingRobot {
 	public void tapById(String viewId) {
 		try {
 			testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).click();
+			testDevice.waitForWindowUpdate(null, config.getViewTimeout());
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with id \"" + viewId + "\" not found", e);
