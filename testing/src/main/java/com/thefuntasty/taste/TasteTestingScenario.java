@@ -26,7 +26,7 @@ public abstract class TasteTestingScenario {
 
 		if (!testDevice.isScreenOn()) {
 			testDevice.wakeUp();
-			testDevice.pressKeyCode(1); // Unlocks screen - not working on xiaomi
+			testDevice.pressKeyCode(1); // Unlocks screen - works for some devices only
 		}
 
 		// Launch the app
@@ -36,10 +36,10 @@ public abstract class TasteTestingScenario {
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);    // Clear out any previous instances
 		context.startActivity(intent);
 
-		// Wait for the login screen
-		robot.waitForId(getWaitedForViewId(), config.getLaunchTimeout());
-
 		afterSetUp();
+
+		// Wait for app to load
+		robot.waitForId(getWaitedForViewId(), config.getLaunchTimeout());
 	}
 
 	protected abstract String getWaitedForViewId();
