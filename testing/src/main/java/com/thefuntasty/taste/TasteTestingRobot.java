@@ -37,6 +37,7 @@ public class TasteTestingRobot {
 	public void tapByText(String text) {
 		try {
 			testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).click();
+			testDevice.waitForWindowUpdate(null, config.getViewTimeout());
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with text \"" + text + "\" not found", e);
@@ -46,6 +47,7 @@ public class TasteTestingRobot {
 	public void tapByContainedText(String text) {
 		try {
 			testDevice.wait(Until.findObject(By.textContains(text)), config.getViewTimeout()).click();
+			testDevice.waitForWindowUpdate(null, config.getViewTimeout());
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with text that contains \"" + text + "\" not found", e);
@@ -55,6 +57,7 @@ public class TasteTestingRobot {
 	public void tapByDescription(String contentDescription) {
 		try {
 			testDevice.wait(Until.findObject(By.desc(contentDescription)), config.getViewTimeout()).click();
+			testDevice.waitForWindowUpdate(null, config.getViewTimeout());
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with content description \"" + contentDescription + "\" not found", e);
@@ -64,6 +67,7 @@ public class TasteTestingRobot {
 	public void tapByContainedInDescription(String contentDescription) {
 		try {
 			testDevice.wait(Until.findObject(By.descContains(contentDescription)), config.getViewTimeout()).click();
+			testDevice.waitForWindowUpdate(null, config.getViewTimeout());
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with content description that contains \"" + contentDescription + "\" not found", e);
@@ -91,6 +95,7 @@ public class TasteTestingRobot {
 	public void allowPermission() {
 		try {
 			testDevice.wait(Until.findObject(By.res("com.android.packageinstaller", "permission_allow_button")), config.getViewTimeout()).click();
+			testDevice.waitForWindowUpdate(null, config.getViewTimeout());
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
 			throw new TasteTestingException("Permission dialog not found", e);
@@ -100,6 +105,7 @@ public class TasteTestingRobot {
 	public void denyPermission() {
 		try {
 			testDevice.wait(Until.findObject(By.res("com.android.packageinstaller", "permission_deny_button")), config.getViewTimeout()).click();
+			testDevice.waitForWindowUpdate(null, config.getViewTimeout());
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
 			throw new TasteTestingException("Permission dialog not found", e);
@@ -228,15 +234,18 @@ public class TasteTestingRobot {
 
 	public void pressBack() {
 		testDevice.pressBack();
+		testDevice.waitForWindowUpdate(null, config.getViewTimeout());
 	}
 
 	public void pressHome() {
 		testDevice.pressHome();
+		testDevice.waitForWindowUpdate(null, config.getViewTimeout());
 	}
 
 	public void pressRecents() {
 		try {
 			testDevice.pressRecentApps();
+			testDevice.waitForWindowUpdate(null, config.getViewTimeout());
 		} catch (RemoteException e) {
 			throw new TasteTestingException(e);
 		}
