@@ -26,8 +26,8 @@ public class TasteTestingRobot {
 	// Actions
 	public void tapById(String viewId) {
 		try {
-			testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).click();
 			testDevice.waitForIdle();
+			testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).click();
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with id \"" + viewId + "\" not found", e);
@@ -36,8 +36,8 @@ public class TasteTestingRobot {
 
 	public void tapByText(String text) {
 		try {
-			testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).click();
 			testDevice.waitForIdle();
+			testDevice.wait(Until.findObject(By.text(text)), config.getViewTimeout()).click();
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with text \"" + text + "\" not found", e);
@@ -46,8 +46,8 @@ public class TasteTestingRobot {
 
 	public void tapByContainedText(String text) {
 		try {
-			testDevice.wait(Until.findObject(By.textContains(text)), config.getViewTimeout()).click();
 			testDevice.waitForIdle();
+			testDevice.wait(Until.findObject(By.textContains(text)), config.getViewTimeout()).click();
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with text that contains \"" + text + "\" not found", e);
@@ -56,8 +56,8 @@ public class TasteTestingRobot {
 
 	public void tapByDescription(String contentDescription) {
 		try {
-			testDevice.wait(Until.findObject(By.desc(contentDescription)), config.getViewTimeout()).click();
 			testDevice.waitForIdle();
+			testDevice.wait(Until.findObject(By.desc(contentDescription)), config.getViewTimeout()).click();
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with content description \"" + contentDescription + "\" not found", e);
@@ -66,8 +66,8 @@ public class TasteTestingRobot {
 
 	public void tapByContainedInDescription(String contentDescription) {
 		try {
-			testDevice.wait(Until.findObject(By.descContains(contentDescription)), config.getViewTimeout()).click();
 			testDevice.waitForIdle();
+			testDevice.wait(Until.findObject(By.descContains(contentDescription)), config.getViewTimeout()).click();
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with content description that contains \"" + contentDescription + "\" not found", e);
@@ -76,6 +76,7 @@ public class TasteTestingRobot {
 
 	public void writeByText(String findText, String writeText) {
 		try {
+			testDevice.waitForIdle();
 			testDevice.wait(Until.findObject(By.text(findText)), config.getViewTimeout()).setText(writeText);
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
@@ -85,6 +86,7 @@ public class TasteTestingRobot {
 
 	public void writeById(String viewId, String writeText) {
 		try {
+			testDevice.waitForIdle();
 			testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).setText(writeText);
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
@@ -94,8 +96,8 @@ public class TasteTestingRobot {
 
 	public void allowPermission() {
 		try {
-			testDevice.wait(Until.findObject(By.res("com.android.packageinstaller", "permission_allow_button")), config.getViewTimeout()).click();
 			testDevice.waitForIdle();
+			testDevice.wait(Until.findObject(By.res("com.android.packageinstaller", "permission_allow_button")), config.getViewTimeout()).click();
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
 			throw new TasteTestingException("Permission dialog not found", e);
@@ -104,8 +106,8 @@ public class TasteTestingRobot {
 
 	public void denyPermission() {
 		try {
-			testDevice.wait(Until.findObject(By.res("com.android.packageinstaller", "permission_deny_button")), config.getViewTimeout()).click();
 			testDevice.waitForIdle();
+			testDevice.wait(Until.findObject(By.res("com.android.packageinstaller", "permission_deny_button")), config.getViewTimeout()).click();
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
 			throw new TasteTestingException("Permission dialog not found", e);
@@ -113,6 +115,7 @@ public class TasteTestingRobot {
 	}
 
 	public void scroll(@TasteDirection.DirectionType int directionType) {
+		testDevice.waitForIdle();
 		int screenWidth = testDevice.getDisplayWidth();
 		int screenHeight = testDevice.getDisplayHeight();
 
@@ -135,6 +138,7 @@ public class TasteTestingRobot {
 	}
 
 	public void halfScroll(@TasteDirection.DirectionType int directionType) {
+		testDevice.waitForIdle();
 		int screenWidth = testDevice.getDisplayWidth();
 		int screenHeight = testDevice.getDisplayHeight();
 
@@ -157,6 +161,7 @@ public class TasteTestingRobot {
 	}
 
 	public void scrollUntilId(@TasteDirection.DirectionType int directionType, String viewId) {
+		testDevice.waitForIdle();
 		int retry = 0;
 		do {
 			if (testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getScrollTimeout()) != null) {
@@ -171,6 +176,7 @@ public class TasteTestingRobot {
 	}
 
 	public void scrollUntilText(@TasteDirection.DirectionType int directionType, String text) {
+		testDevice.waitForIdle();
 		int retry = 0;
 		do {
 			if (testDevice.wait(Until.findObject(By.text(text)), config.getScrollTimeout()) != null) {
@@ -185,6 +191,7 @@ public class TasteTestingRobot {
 	}
 
 	public void dragViewById(@TasteDirection.DirectionType int directionType, String viewId) {
+		testDevice.waitForIdle();
 		int screenWidth = testDevice.getDisplayWidth();
 		int screenHeight = testDevice.getDisplayHeight();
 		int viewX = waitForId(viewId).getVisibleCenter().x;
@@ -209,6 +216,7 @@ public class TasteTestingRobot {
 	}
 
 	public void dragViewByText(@TasteDirection.DirectionType int directionType, String text) {
+		testDevice.waitForIdle();
 		int screenWidth = testDevice.getDisplayWidth();
 		int screenHeight = testDevice.getDisplayHeight();
 		int viewX = waitForText(text).getVisibleCenter().x;
@@ -233,14 +241,17 @@ public class TasteTestingRobot {
 	}
 
 	public void pressBack() {
+		testDevice.waitForIdle();
 		testDevice.pressBack();
 	}
 
 	public void pressHome() {
+		testDevice.waitForIdle();
 		testDevice.pressHome();
 	}
 
 	public void pressRecents() {
+		testDevice.waitForIdle();
 		try {
 			testDevice.pressRecentApps();
 		} catch (RemoteException e) {
@@ -250,6 +261,7 @@ public class TasteTestingRobot {
 
 	// Assertions
 	public void notPresentByText(String text) {
+		testDevice.waitForIdle();
 		try {
 			assertNull("Text \"" + text + "\" should not be present", waitForTextOrNull(text));
 		} catch (AssertionError e) {
@@ -259,6 +271,7 @@ public class TasteTestingRobot {
 	}
 
 	public void notPresentById(String viewId) {
+		testDevice.waitForIdle();
 		try {
 			assertNull("View with id \"" + viewId + "\" should not be present", waitForIdOrNull(viewId));
 		} catch (AssertionError e) {
@@ -268,6 +281,7 @@ public class TasteTestingRobot {
 	}
 
 	public void presentByText(String text) {
+		testDevice.waitForIdle();
 		try {
 			assertNotNull("Text \"" + text + "\" is not present", waitForTextOrNull(text));
 		} catch (AssertionError e) {
@@ -277,6 +291,7 @@ public class TasteTestingRobot {
 	}
 
 	public void presentById(String viewId) {
+		testDevice.waitForIdle();
 		try {
 			assertNotNull("View with id \"" + viewId + "\" is not present", waitForIdOrNull(viewId));
 		} catch (AssertionError e) {
@@ -286,6 +301,7 @@ public class TasteTestingRobot {
 	}
 
 	public void textInIdEquals(String viewId, String text) {
+		testDevice.waitForIdle();
 		try {
 			assertTrue("Text in view with id \"" + viewId + "\" is not \"" + text + "\"", waitForId(viewId).getText().equals(text));
 		} catch (AssertionError e) {
@@ -295,6 +311,7 @@ public class TasteTestingRobot {
 	}
 
 	public void textInIdContains(String viewId, String text) {
+		testDevice.waitForIdle();
 		try {
 			assertTrue("Text in view with id \"" + viewId + "\" does not contain \"" + text + "\"", waitForId(viewId).getText().contains(text));
 		} catch (AssertionError e) {
@@ -304,6 +321,7 @@ public class TasteTestingRobot {
 	}
 
 	public void textInIdDiffer(String viewId, String text) {
+		testDevice.waitForIdle();
 		try {
 			assertFalse("Text in view with id \"" + viewId + "\" should not be \"" + text + "\"", waitForId(viewId).getText().equals(text));
 		} catch (AssertionError e) {
@@ -313,6 +331,7 @@ public class TasteTestingRobot {
 	}
 
 	public void enabledById(String viewId) {
+		testDevice.waitForIdle();
 		try {
 			assertTrue("View with id \"" + viewId + "\" should not be enabled", waitForId(viewId).isEnabled());
 		} catch (AssertionError e) {
@@ -322,6 +341,7 @@ public class TasteTestingRobot {
 	}
 
 	public void disabledById(String viewId) {
+		testDevice.waitForIdle();
 		try {
 			assertFalse("View with id \"" + viewId + "\" should not be disabled", waitForId(viewId).isEnabled());
 		} catch (AssertionError e) {
@@ -331,6 +351,7 @@ public class TasteTestingRobot {
 	}
 
 	public void checkedById(String viewId) {
+		testDevice.waitForIdle();
 		try {
 			assertTrue("View with id \"" + viewId + "\" is not checked", waitForId(viewId).isChecked());
 		} catch (AssertionError e) {
@@ -340,6 +361,7 @@ public class TasteTestingRobot {
 	}
 
 	public void notCheckedById(String viewId) {
+		testDevice.waitForIdle();
 		try {
 			assertFalse("View with id \"" + viewId + "\" should not be checked", waitForId(viewId).isChecked());
 		} catch (AssertionError e) {
@@ -349,6 +371,7 @@ public class TasteTestingRobot {
 	}
 
 	public void checkedByText(String text) {
+		testDevice.waitForIdle();
 		try {
 			assertTrue("View with text \"" + text + "\" is not checked", waitForText(text).isChecked());
 		} catch (AssertionError e) {
@@ -358,6 +381,7 @@ public class TasteTestingRobot {
 	}
 
 	public void notCheckedByText(String text) {
+		testDevice.waitForIdle();
 		try {
 			assertFalse("View with text \"" + text + "\" should not be checked", waitForText(text).isChecked());
 		} catch (AssertionError e) {
@@ -367,6 +391,7 @@ public class TasteTestingRobot {
 	}
 
 	public void selectedById(String viewId) {
+		testDevice.waitForIdle();
 		try {
 			assertTrue("View with id \"" + viewId + "\" is not selected", waitForId(viewId).isSelected());
 		} catch (AssertionError e) {
@@ -376,6 +401,7 @@ public class TasteTestingRobot {
 	}
 
 	public void notSelectedById(String viewId) {
+		testDevice.waitForIdle();
 		try {
 			assertFalse("View with id \"" + viewId + "\" should not be selected", waitForId(viewId).isSelected());
 		} catch (AssertionError e) {
@@ -385,6 +411,7 @@ public class TasteTestingRobot {
 	}
 
 	public void selectedByText(String text) {
+		testDevice.waitForIdle();
 		try {
 			assertTrue("View with text \"" + text + "\" is not selected", waitForText(text).isSelected());
 		} catch (AssertionError e) {
@@ -394,6 +421,7 @@ public class TasteTestingRobot {
 	}
 
 	public void notSelectedByText(String text) {
+		testDevice.waitForIdle();
 		try {
 			assertFalse("View with text \"" + text + "\" should not be selected", waitForText(text).isSelected());
 		} catch (AssertionError e) {
@@ -405,6 +433,7 @@ public class TasteTestingRobot {
 	// Misc
 
 	public String getTextById(String viewId) {
+		testDevice.waitForIdle();
 		return waitForId(viewId).getText();
 	}
 
