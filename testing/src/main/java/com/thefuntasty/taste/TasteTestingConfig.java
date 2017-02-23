@@ -8,7 +8,6 @@ public class TasteTestingConfig {
 
 	private int launchTimeout = 10000;
 	private int viewTimeout = 5000;
-	private int screenshotWait = 3;
 	private int scrollSteps = 10;
 	private int scrollThreshold = 10;
 	private int scrollTimeout = 2000;
@@ -23,10 +22,6 @@ public class TasteTestingConfig {
 
 	public int getViewTimeout() {
 		return viewTimeout;
-	}
-
-	public int getScreenshotWait() {
-		return screenshotWait;
 	}
 
 	public int getScrollSteps() {
