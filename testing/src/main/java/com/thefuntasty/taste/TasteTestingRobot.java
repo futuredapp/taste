@@ -6,8 +6,11 @@ import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject2;
 import android.support.test.uiautomator.Until;
 
+import com.github.javafaker.Faker;
+
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.String.valueOf;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -17,6 +20,7 @@ public class TasteTestingRobot {
 
 	private UiDevice testDevice;
 	private TasteTestingConfig config;
+	private Faker faker = new Faker();
 
 	public TasteTestingRobot(UiDevice testDevice, TasteTestingConfig config) {
 		this.testDevice = testDevice;
@@ -397,6 +401,32 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		}
+	}
+
+	// Fake data
+
+	public String getFirstName() {
+		return faker.name().firstName();
+	}
+
+	public String getLastName() {
+		return faker.name().lastName();
+	}
+
+	public String getFullName() {
+		return getFirstName() + " " + getLastName();
+	}
+
+	public String getEmail() {
+		return faker.internet().safeEmailAddress();
+	}
+
+	public String getRandomString(int length) {
+		return faker.lorem().characters(length);
+	}
+
+	public String getRandomNumber(int min, int max) {
+		return valueOf(faker.number().numberBetween(min, max));
 	}
 
 	// Misc
