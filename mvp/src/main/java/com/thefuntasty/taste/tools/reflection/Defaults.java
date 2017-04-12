@@ -1,4 +1,4 @@
-package com.thefuntasty.taste.tools.reflexion;
+package com.thefuntasty.taste.tools.reflection;
 
 import java.util.HashMap;
 import java.util.Map;

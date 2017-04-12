@@ -1,4 +1,4 @@
-package com.thefuntasty.taste.tools.reflexion;
+package com.thefuntasty.taste.tools.reflection;
 
 import com.thefuntasty.taste.mvp.MvpView;
 
@@ -17,7 +17,7 @@ public final class NoOpGenerator {
 
 	@SuppressWarnings("unchecked")
 	public static <V extends MvpView> V fromMvpInterface(Class<?> baseClass) {
-		Class<V> interfaceClass = ReflexionUtil.tryGetMvpInterface(baseClass);
+		Class<V> interfaceClass = ReflectionUtils.tryGetMvpInterface(baseClass);
 		Class[] interfaceClasses = new Class[] { interfaceClass };
 		return (V) newProxyInstance(baseClass.getClassLoader(), interfaceClasses, DEFAULT_VALUE);
 	}

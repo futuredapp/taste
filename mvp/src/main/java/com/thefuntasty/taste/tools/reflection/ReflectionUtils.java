@@ -1,11 +1,11 @@
-package com.thefuntasty.taste.tools.reflexion;
+package com.thefuntasty.taste.tools.reflection;
 
 import com.thefuntasty.taste.mvp.MvpView;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-public class ReflexionUtil {
+public class ReflectionUtils {
 
 	public static <V extends MvpView> Class<V> tryGetMvpInterface(Class<?> originClass) {
 		try {

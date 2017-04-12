@@ -1,6 +1,6 @@
 package com.thefuntasty.taste.mvp;
 
-import com.thefuntasty.taste.tools.reflexion.NoOpGenerator;
+import com.thefuntasty.taste.tools.reflection.NoOpGenerator;
 
 public abstract class BaseNoOpPresenter<V extends MvpView> implements Presenter<V> {
 
