@@ -4,7 +4,7 @@ import com.thefuntasty.taste.tools.reflection.NoOpGenerator;
 
 public abstract class BaseNoOpPresenter<V extends MvpView> implements Presenter<V> {
 
-	private boolean checkIfPresenterIsValid = true;
+	private boolean isNoOpTestCreationEnabled = true;
 
 	private boolean wasDetached = false;
 
@@ -16,9 +16,9 @@ public abstract class BaseNoOpPresenter<V extends MvpView> implements Presenter<
 	public void attachView(V mvpView) {
 		view = mvpView;
 
-		if (checkIfPresenterIsValid) {
-			MvpView v = NoOpGenerator.fromMvpInterface(getClass());
-			if (v == null) {
+		if (isNoOpTestCreationEnabled) {
+			MvpView testView = NoOpGenerator.fromMvpInterface(getClass());
+			if (testView == null) {
 				throw new IllegalStateException("Can't create NoOp view for " + getClass());
 			}
 		}
@@ -48,7 +48,7 @@ public abstract class BaseNoOpPresenter<V extends MvpView> implements Presenter<
 		return view != null && !wasDetached;
 	}
 	
-	public void setCheckIfPresenterIsValid(boolean checkIfPresenterIsValid) {
-		this.checkIfPresenterIsValid = checkIfPresenterIsValid;
+	public void setNoOpTestCreationEnabled(boolean isNoOpTestCreationEnabled) {
+		this.isNoOpTestCreationEnabled = isNoOpTestCreationEnabled;
 	}
 }
