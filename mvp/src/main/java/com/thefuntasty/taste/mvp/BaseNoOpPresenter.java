@@ -4,7 +4,7 @@ import com.thefuntasty.taste.tools.reflection.NoOpGenerator;
 
 public abstract class BaseNoOpPresenter<V extends MvpView> implements Presenter<V> {
 
-	private boolean isNoOpTestCreationEnabled = true;
+	private boolean isNoOpTestCreationEnabled = false;
 
 	private boolean wasDetached = false;
 
