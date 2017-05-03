@@ -6,13 +6,11 @@ import android.support.test.uiautomator.StaleObjectException;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject2;
 import android.support.test.uiautomator.Until;
-import android.util.Log;
 
 import com.github.javafaker.Faker;
 
 import java.util.concurrent.TimeUnit;
 
-import static android.content.ContentValues.TAG;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -23,7 +21,6 @@ public class TasteTestingRobot {
 	private UiDevice testDevice;
 	private TasteTestingConfig config;
 	private Faker faker = new Faker();
-	static int staleExceptionCount = 0;
 
 	public TasteTestingRobot(UiDevice testDevice, TasteTestingConfig config) {
 		this.testDevice = testDevice;
@@ -38,10 +35,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with id \"" + viewId + "\" not found", e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			tapById(viewId);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -52,10 +46,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with text \"" + text + "\" not found", e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			tapByText(text);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -66,10 +57,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with text that contains \"" + text + "\" not found", e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			tapByContainedText(text);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -80,10 +68,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with content description \"" + contentDescription + "\" not found", e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			tapByDescription(contentDescription);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -94,10 +79,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with content description that contains \"" + contentDescription + "\" not found", e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			tapByContainedInDescription(contentDescription);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -108,10 +90,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with text \"" + findText + "\" not found", e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			writeByText(findText, writeText);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -122,10 +101,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with id \"" + viewId + "\" not found", e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			writeById(viewId, writeText);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -295,10 +271,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			notPresentByText(text);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -309,10 +282,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			notPresentById(viewId);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -323,10 +293,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			presentByText(text);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -337,10 +304,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			presentById(viewId);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -351,10 +315,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			textInIdEquals(viewId, text);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -365,10 +326,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			textInIdEqualsCaseInsensitive(viewId, text);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -379,10 +337,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			textInIdContains(viewId, text);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -393,10 +348,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			textInIdDiffer(viewId, text);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -407,10 +359,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			enabledById(viewId);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -421,10 +370,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			disabledById(viewId);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -435,10 +381,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			checkedById(viewId);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -449,10 +392,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			notCheckedById(viewId);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -463,10 +403,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			checkedByText(text);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -477,10 +414,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			notCheckedByText(text);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -491,10 +425,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			selectedById(viewId);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -505,10 +436,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			notSelectedById(viewId);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -519,10 +447,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			selectedByText(text);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
@@ -533,10 +458,7 @@ public class TasteTestingRobot {
 			takeScreenshot("exception");
 			throw new TasteTestingException(e);
 		} catch (StaleObjectException e) {
-			Log.d(TAG, "StaleObjectExceptionCount: " + (++staleExceptionCount));
 			notSelectedByText(text);
-		} finally {
-			staleExceptionCount = 0;
 		}
 	}
 
