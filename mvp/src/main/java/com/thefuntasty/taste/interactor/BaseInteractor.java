@@ -1,12 +1,17 @@
 package com.thefuntasty.taste.interactor;
 
+import android.support.annotation.NonNull;
+
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.Subscriptions;
+import timber.log.Timber;
 
 public abstract class BaseInteractor<T> {
 
@@ -22,6 +27,38 @@ public abstract class BaseInteractor<T> {
 		subscription = buildObservable()
 				.compose(applySchedulers())
 				.subscribe(subscriber);
+	}
+
+	public void execute(@NonNull Action1<T> onNext) {
+		execute(onNext, new Action1<Throwable>() {
+			@Override public void call(Throwable throwable) { }
+		});
+	}
+
+	public void execute(@NonNull Action1<T> onNext, final @NonNull Action1<Throwable> onError) {
+		unsubscribe();
+		subscription = buildObservable()
+				.compose(applySchedulers())
+				.subscribe(onNext, new Action1<Throwable>() {
+					@Override public void call(Throwable throwable) {
+						Timber.e(throwable);
+						onError.call(throwable);
+					}
+				});
+	}
+
+	public void execute(@NonNull Action0 onComplete, final @NonNull Action1<Throwable> onError) {
+		unsubscribe();
+		subscription = buildObservable()
+				.compose(applySchedulers())
+				.subscribe(new Action1<T>() {
+					@Override public void call(T t) { }
+				}, new Action1<Throwable>() {
+					@Override public void call(Throwable throwable) {
+						Timber.e(throwable);
+						onError.call(throwable);
+					}
+				}, onComplete);
 	}
 
 	public void unsubscribe() {
