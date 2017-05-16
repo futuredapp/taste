@@ -15,6 +15,7 @@ public abstract class BaseNoOpPresenter<V extends MvpView> implements Presenter<
 	@Override
 	public void attachView(V mvpView) {
 		view = mvpView;
+		wasDetached = false;
 
 		if (isNoOpTestCreationEnabled) {
 			MvpView testView = NoOpGenerator.fromMvpInterface(getClass());
