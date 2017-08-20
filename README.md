@@ -5,7 +5,7 @@ Taste is helper library for Android developers at The Funtasty.
 
 ## Instalation
 
-Check the newest version on [https://jitpack.io/#org.bitbucket.thefuntasty/taste](https://jitpack.io/#org.bitbucket.thefuntasty/taste)
+Check the newest version on [https://jitpack.io/#thefuntasty/taste](https://jitpack.io/#thefuntasty/taste)
 
 Add it in your root build.gradle at the end of repositories:
 
