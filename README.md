@@ -1,6 +1,6 @@
 # Taste #
 
-Taste is helper library for Android developers at The Funtasty.
+Taste is helper library for Android developers at FUNTASTY Digital s.r.o.
 
 
 ## Instalation
