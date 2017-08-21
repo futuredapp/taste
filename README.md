@@ -24,6 +24,7 @@ Add the dependencies you need:
 compile 'com.github.thefuntasty:taste:core:2.0.0'
 compile 'com.github.thefuntasty:taste:mvp:2.0.0'
 compile 'com.github.thefuntasty:taste:debugdrawer:2.0.0'
+compile 'com.github.thefuntasty:taste:testing:2.0.0'
 ```
 
 ## Usage
