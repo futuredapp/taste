@@ -21,11 +21,11 @@ allprojects {
 Add the dependencies you need:
 
 ```groovy
-compile 'com.github.thefuntasty:taste:core:1.8.14'
-compile 'com.github.thefuntasty:taste:parcel:1.8.14'
-compile 'com.github.thefuntasty:taste:bus:1.8.14'
-compile 'com.github.thefuntasty:taste:debugdrawer:1.8.14'
-compile 'com.github.thefuntasty:taste:infinity:1.8.14'
+compile 'com.github.thefuntasty:taste:core:2.0.0'
+compile 'com.github.thefuntasty:taste:parcel:2.0.0'
+compile 'com.github.thefuntasty:taste:bus:2.0.0'
+compile 'com.github.thefuntasty:taste:debugdrawer:2.0.0'
+compile 'com.github.thefuntasty:taste:infinity:2.0.0'
 ```
 
 When using `parcel` module, do not forget to include [Android APT](https://bitbucket.org/hvisser/android-apt) plugin and add following annotation processors as apt dependency and Clojars repo as repository
