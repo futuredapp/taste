@@ -21,32 +21,12 @@ allprojects {
 Add the dependencies you need:
 
 ```groovy
-compile 'com.github.thefuntasty:taste:core:1.8.14'
-compile 'com.github.thefuntasty:taste:parcel:1.8.14'
-compile 'com.github.thefuntasty:taste:bus:1.8.14'
-compile 'com.github.thefuntasty:taste:debugdrawer:1.8.14'
-compile 'com.github.thefuntasty:taste:infinity:1.8.14'
-```
-
-When using `parcel` module, do not forget to include [Android APT](https://bitbucket.org/hvisser/android-apt) plugin and add following annotation processors as apt dependency and Clojars repo as repository
-```groovy
-apt 'org.parceler:parceler:1.1.5'
-apt 'frankiesardo:icepick-processor:3.2.0'
-```
-```groovy
-maven { url "https://clojars.org/repo/" }
-```
-
-## Usage
-
-```java
-public class App extends Application {
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        Taste.init(this);
-    }
-}
+compile 'com.github.thefuntasty:taste:core:3.0.0-kotlin-beta1'
+compile 'com.github.thefuntasty:taste:debugdrawer:3.0.0-kotlin-beta1'
+compile 'com.github.thefuntasty:taste:interactors-rxjava:3.0.0-kotlin-beta1'
+compile 'com.github.thefuntasty:taste:interactors-rxjava2:3.0.0-kotlin-beta1'
+compile 'com.github.thefuntasty:taste:mvp:3.0.0-kotlin-beta1'
+compile 'com.github.thefuntasty:taste:testing:3.0.0-kotlin-beta1'
 ```
 
 ***
