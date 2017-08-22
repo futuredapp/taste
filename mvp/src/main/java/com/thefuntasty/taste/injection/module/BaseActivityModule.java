@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.thefuntasty.taste.TasteActivity;
-import com.thefuntasty.taste.injection.annotation.qualifier.ActivityContext;
-import com.thefuntasty.taste.injection.annotation.scope.PerScreen;
+import com.thefuntasty.taste.injection.annotation.ActivityContext;
+import com.thefuntasty.taste.injection.annotation.PerScreen;
 
 import dagger.Module;
 import dagger.Provides;

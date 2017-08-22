@@ -3,7 +3,7 @@ package com.thefuntasty.taste.injection.module;
 import android.content.Context;
 
 import com.thefuntasty.taste.display.TDisplay;
-import com.thefuntasty.taste.injection.annotation.qualifier.ApplicationContext;
+import com.thefuntasty.taste.injection.annotation.ApplicationContext;
 import com.thefuntasty.taste.res.TRes;
 
 import javax.inject.Singleton;

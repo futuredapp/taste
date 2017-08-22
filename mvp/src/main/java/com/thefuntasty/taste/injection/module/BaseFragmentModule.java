@@ -3,7 +3,7 @@ package com.thefuntasty.taste.injection.module;
 import android.support.v4.app.Fragment;
 
 import com.thefuntasty.taste.TasteFragment;
-import com.thefuntasty.taste.injection.annotation.scope.PerScreen;
+import com.thefuntasty.taste.injection.annotation.PerScreen;
 
 import dagger.Module;
 import dagger.Provides;
