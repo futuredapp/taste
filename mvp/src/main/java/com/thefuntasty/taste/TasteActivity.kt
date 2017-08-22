@@ -1,6 +1,7 @@
 package com.thefuntasty.taste
 
 import android.os.Bundle
+import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
 import butterknife.ButterKnife
 
@@ -16,8 +17,7 @@ abstract class TasteActivity : AppCompatActivity() {
 		inject()
 	}
 
-	abstract val activityLayout: Int
+	@get:LayoutRes abstract val activityLayout: Int
 
 	abstract fun inject()
-
 }
