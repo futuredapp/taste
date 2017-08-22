@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 25
@@ -21,20 +23,19 @@ android {
 }
 
 dependencies {
-    compile project(':core')
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile "com.android.support:recyclerview-v7:25.3.1"
-    compile 'com.jakewharton:butterknife:8.5.1'
-    compile 'com.google.dagger:dagger-android:2.9'
-    compile 'com.jakewharton.timber:timber:4.5.1'
+    implementation project(':core')
+    implementation 'com.android.support:appcompat-v7:25.3.1'
+    implementation "com.android.support:recyclerview-v7:25.3.1"
+    implementation 'com.jakewharton:butterknife:8.7.0'
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation 'com.google.dagger:dagger-android:2.11'
+    implementation 'com.jakewharton.timber:timber:4.5.1'
 
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile 'org.assertj:assertj-core:3.5.2'
-    testCompile 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+    testImplementation 'org.assertj:assertj-core:3.5.2'
+    testImplementation 'junit:junit:4.12'
 
     provided 'org.glassfish:javax.annotation:10.0-b28'
-
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.9'
 }
 
 task sourcesJar(type: Jar) {
