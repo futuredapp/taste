@@ -5,7 +5,7 @@ Taste is helper library for Android developers at FUNTASTY
 
 ## Instalation
 
-Check the newest version on [https://jitpack.io/#org.bitbucket.thefuntasty/taste](https://jitpack.io/#org.bitbucket.thefuntasty/taste)
+Check the newest version on [https://jitpack.io/#thefuntasty/taste](https://jitpack.io/#thefuntasty/taste)
 
 Add it in your root build.gradle at the end of repositories:
 
@@ -21,20 +21,10 @@ allprojects {
 Add the dependencies you need:
 
 ```groovy
-compile 'com.github.thefuntasty:taste:core:1.8.14'
-compile 'com.github.thefuntasty:taste:parcel:1.8.14'
-compile 'com.github.thefuntasty:taste:bus:1.8.14'
-compile 'com.github.thefuntasty:taste:debugdrawer:1.8.14'
-compile 'com.github.thefuntasty:taste:infinity:1.8.14'
-```
-
-When using `parcel` module, do not forget to include [Android APT](https://bitbucket.org/hvisser/android-apt) plugin and add following annotation processors as apt dependency and Clojars repo as repository
-```groovy
-apt 'org.parceler:parceler:1.1.5'
-apt 'frankiesardo:icepick-processor:3.2.0'
-```
-```groovy
-maven { url "https://clojars.org/repo/" }
+compile 'com.github.thefuntasty:taste:core:2.0.0'
+compile 'com.github.thefuntasty:taste:mvp:2.0.0'
+compile 'com.github.thefuntasty:taste:debugdrawer:2.0.0'
+compile 'com.github.thefuntasty:taste:testing:2.0.0'
 ```
 
 ## Usage
