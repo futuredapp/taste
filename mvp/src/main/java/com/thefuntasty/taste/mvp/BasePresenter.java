@@ -1,6 +1,7 @@
 package com.thefuntasty.taste.mvp;
 
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 
 public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
 
@@ -8,7 +9,7 @@ public abstract class BasePresenter<T extends MvpView> implements Presenter<T> {
 
 	@Override
 	@CallSuper
-	public void attachView(T mvpView) {
+	public void attachView(@NonNull T mvpView) {
 		this.mvpView = mvpView;
 	}
 
