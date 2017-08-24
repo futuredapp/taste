@@ -13,9 +13,9 @@ class TasteModule {
 
 	@Provides
 	@Singleton
-	internal fun tRes(@ApplicationContext context: Context) = TRes(context)
+	fun tRes(@ApplicationContext context: Context) = TRes(context)
 
 	@Provides
 	@Singleton
-	internal fun tDisplay(@ApplicationContext context: Context) = TDisplay(context)
+	fun tDisplay(@ApplicationContext context: Context) = TDisplay(context)
 }
