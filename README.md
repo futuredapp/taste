@@ -21,12 +21,12 @@ allprojects {
 Add the dependencies you need:
 
 ```groovy
-compile 'com.github.thefuntasty.taste:core:3.0.0-kotlin-beta3'
-compile 'com.github.thefuntasty.taste:debugdrawer:3.0.0-kotlin-beta3'
-compile 'com.github.thefuntasty.taste:interactors-rxjava:3.0.0-kotlin-beta3'
-compile 'com.github.thefuntasty.taste:interactors-rxjava2:3.0.0-kotlin-beta3'
-compile 'com.github.thefuntasty.taste:mvp:3.0.0-kotlin-beta3'
-compile 'com.github.thefuntasty.taste:testing:3.0.0-kotlin-beta3'
+compile 'com.github.thefuntasty.taste:core:3.0.0-kotlin-beta6'
+compile 'com.github.thefuntasty.taste:debugdrawer:3.0.0-kotlin-beta6'
+compile 'com.github.thefuntasty.taste:interactors-rxjava:3.0.0-kotlin-beta6'
+compile 'com.github.thefuntasty.taste:interactors-rxjava2:3.0.0-kotlin-beta6'
+compile 'com.github.thefuntasty.taste:mvp:3.0.0-kotlin-beta6'
+compile 'com.github.thefuntasty.taste:testing:3.0.0-kotlin-beta6'
 ```
 
 ***
