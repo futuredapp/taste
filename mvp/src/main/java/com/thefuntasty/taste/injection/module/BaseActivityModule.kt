@@ -1,6 +1,7 @@
 package com.thefuntasty.taste.injection.module
 
 import android.app.Activity
+import android.arch.lifecycle.Lifecycle
 import android.content.Context
 
 import com.thefuntasty.taste.TasteActivity
@@ -30,4 +31,10 @@ abstract class BaseActivityModule<out T : TasteActivity>(private val activity: T
 	fun context(): Context {
 		return activity
 	}
+
+    @Provides
+    @ActivityContext
+    fun lifecycle(): Lifecycle {
+        return activity.lifecycle
+    }
 }

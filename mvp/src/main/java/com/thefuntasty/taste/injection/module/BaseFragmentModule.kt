@@ -1,5 +1,6 @@
 package com.thefuntasty.taste.injection.module
 
+import android.arch.lifecycle.Lifecycle
 import android.support.v4.app.Fragment
 import com.thefuntasty.taste.TasteFragment
 import com.thefuntasty.taste.injection.annotation.PerScreen
@@ -20,4 +21,9 @@ abstract class BaseFragmentModule<out T : TasteFragment>(private val fragment: T
 	fun fragment(): Fragment {
 		return fragment
 	}
+
+    @Provides
+    fun lifecycle(): Lifecycle {
+        return fragment.lifecycle
+    }
 }
