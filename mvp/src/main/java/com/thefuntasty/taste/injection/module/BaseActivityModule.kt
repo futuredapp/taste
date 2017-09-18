@@ -33,7 +33,6 @@ abstract class BaseActivityModule<out T : TasteActivity>(private val activity: T
 	}
 
     @Provides
-    @ActivityContext
     fun lifecycle(): Lifecycle {
         return activity.lifecycle
     }
