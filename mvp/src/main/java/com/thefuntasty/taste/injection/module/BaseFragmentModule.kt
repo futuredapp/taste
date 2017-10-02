@@ -22,8 +22,9 @@ abstract class BaseFragmentModule<out T : TasteFragment>(private val fragment: T
 		return fragment
 	}
 
-    @Provides
-    fun lifecycle(): Lifecycle {
-        return fragment.lifecycle
-    }
+	@Provides
+	@PerScreen
+	fun lifecycle(): Lifecycle {
+		return fragment.lifecycle
+	}
 }
