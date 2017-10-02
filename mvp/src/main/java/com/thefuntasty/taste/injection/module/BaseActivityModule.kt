@@ -32,8 +32,9 @@ abstract class BaseActivityModule<out T : TasteActivity>(private val activity: T
 		return activity
 	}
 
-    @Provides
-    fun lifecycle(): Lifecycle {
-        return activity.lifecycle
-    }
+	@Provides
+	@PerScreen
+	fun lifecycle(): Lifecycle {
+		return activity.lifecycle
+	}
 }
