@@ -6,34 +6,45 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
 import io.reactivex.schedulers.Schedulers
+import org.reactivestreams.Subscriber
 
-abstract class BaseFlowableInteractor<T> protected constructor() {
+abstract class BaseFlowabler<T> protected constructor() {
 	private var disposable: Disposable = Disposables.disposed()
 
-	protected abstract fun buildObservable(): Flowable<T>
+	protected abstract fun build(): Flowable<T>
 
 	fun execute(onNext: (T) -> Unit) {
 		dispose()
-		disposable = buildObservable()
+		disposable = build()
 				.applySchedulers()
 				.subscribe(onNext)
 	}
 
 	fun execute(onNext: (T) -> Unit, onError: (Throwable) -> Unit) {
 		dispose()
-		disposable = buildObservable()
+		disposable = build()
 				.applySchedulers()
 				.subscribe(onNext, onError)
 	}
 
 	fun execute(onNext: (T) -> Unit, onError: (Throwable) -> Unit, onComplete: () -> Unit) {
 		dispose()
-		disposable = buildObservable()
+		disposable = build()
 				.applySchedulers()
 				.subscribe(onNext, onError, onComplete)
 	}
 
-	fun dispose() {
+	fun <S> execute(disposableSubscriber: S)
+			where S : Subscriber<T>, S : Disposable {
+		dispose()
+		build()
+				.applySchedulers()
+				.subscribeWith(disposableSubscriber)
+
+		disposable = disposableSubscriber
+	}
+
+	open fun dispose() {
 		if (!disposable.isDisposed) {
 			disposable.dispose()
 		}
@@ -44,10 +55,10 @@ abstract class BaseFlowableInteractor<T> protected constructor() {
 	protected open fun getResultScheduler(): Scheduler = AndroidSchedulers.mainThread()
 
 	private fun Flowable<T>.applySchedulers(): Flowable<T> {
-		return compose({ resultObservable ->
+		return compose { resultObservable ->
 			resultObservable
 					.subscribeOn(getWorkScheduler())
 					.observeOn(getResultScheduler())
-		})
+		}
 	}
 }

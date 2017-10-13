@@ -1,25 +1,27 @@
 package com.thefuntasty.taste
 
+import android.support.annotation.VisibleForTesting
 import com.github.ajalt.timberkt.e
 import io.reactivex.Completable
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposables
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subscribers.TestSubscriber
 
-abstract class BaseCompletableInteractor protected constructor() {
+abstract class BaseCompletabler protected constructor() {
 	private var disposable = Disposables.disposed()
 
-	protected abstract fun buildObservable(): Completable
+	protected abstract fun build(): Completable
 
 	fun execute(onComplete: () -> Unit) {
-		unsubscribe()
-		disposable = buildObservable().applySchedulers().subscribe(onComplete)
+		dispose()
+		disposable = build().applySchedulers().subscribe(onComplete)
 	}
 
 	fun execute(onComplete: () -> Unit, onError: (Throwable) -> Unit) {
-		unsubscribe()
-		disposable = buildObservable().applySchedulers().subscribe(
+		dispose()
+		disposable = build().applySchedulers().subscribe(
 				onComplete,
 				{ throwable ->
 					e(throwable)
@@ -27,7 +29,18 @@ abstract class BaseCompletableInteractor protected constructor() {
 				})
 	}
 
-	fun unsubscribe() {
+	@VisibleForTesting
+	fun execute(testSubscriber: TestSubscriber<Unit>) {
+		dispose()
+		build()
+				.applySchedulers()
+				.toFlowable<Unit>()
+				.subscribeWith(testSubscriber)
+
+		disposable = testSubscriber
+	}
+
+	fun dispose() {
 		if (!disposable.isDisposed) {
 			disposable.dispose()
 		}
@@ -38,8 +51,8 @@ abstract class BaseCompletableInteractor protected constructor() {
 	protected val resultScheduler: Scheduler = AndroidSchedulers.mainThread()
 
 	private fun Completable.applySchedulers(): Completable {
-		return compose({ resultObservable ->
+		return compose { resultObservable ->
 			resultObservable.subscribeOn(workScheduler).observeOn(resultScheduler)
-		})
+		}
 	}
 }
