@@ -85,7 +85,7 @@ public class TasteTestingRobot {
 
 	public void writeByText(String findText, String writeText) {
 		try {
-			testDevice.wait(Until.findObject(By.text(findText)), config.getViewTimeout()).setText(writeText);
+			testDevice.wait(Until.findObject(By.text(findText).clazz("android.widget.EditText")), config.getViewTimeout()).setText(writeText);
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with text \"" + findText + "\" not found", e);
@@ -96,12 +96,23 @@ public class TasteTestingRobot {
 
 	public void writeById(String viewId, String writeText) {
 		try {
-			testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId)), config.getViewTimeout()).setText(writeText);
+			testDevice.wait(Until.findObject(By.res(config.getPackageName(), viewId).clazz("android.widget.EditText")), config.getViewTimeout()).setText(writeText);
 		} catch (NullPointerException e) {
 			takeScreenshot("exception");
 			throw new TasteTestingException("View with id \"" + viewId + "\" not found", e);
 		} catch (StaleObjectException e) {
 			writeById(viewId, writeText);
+		}
+	}
+
+	public void writeByDescription(String contentDescription, String writeText) {
+		try {
+			testDevice.wait(Until.findObject(By.desc(contentDescription).clazz("android.widget.EditText")), config.getViewTimeout()).setText(writeText);
+		} catch (NullPointerException e) {
+			takeScreenshot("exception");
+			throw new TasteTestingException("View with content description \"" + contentDescription + "\" not found", e);
+		} catch (StaleObjectException e) {
+			writeByText(contentDescription, writeText);
 		}
 	}
 
