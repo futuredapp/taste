@@ -16,12 +16,14 @@ public abstract class TasteTestingScenario {
 
 	@Before
 	public void setUp() throws RemoteException {
+		// Create config instance
+		String packageName = getPackageName();
+		config = new TasteTestingConfig(packageName);
+
 		beforeSetUp();
 
 		// Initialize UiDevice instance
 		testDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-		String packageName = getPackageName();
-		config = new TasteTestingConfig(packageName);
 		robot = new TasteTestingRobot(testDevice, config);
 
 		if (!testDevice.isScreenOn()) {

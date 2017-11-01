@@ -44,6 +44,17 @@ public class TasteTestingConfig {
 		this.viewTimeout = millis;
 	}
 
+	public void setscrollSteps(int scrollSteps) {
+		this.scrollSteps = scrollSteps;
+	}
+	public void setscrollThreshold(int scrollThreshold) {
+		this.scrollThreshold = scrollThreshold;
+	}
+
+	public void setscrollTimeout(int scrollTimeout) {
+		this.scrollTimeout = scrollTimeout;
+	}
+
 	public String getPackageName() {
 		if (TextUtils.isEmpty(packageName)) {
 			throw new RuntimeException("Setting package name required. Use TasteTestingConfig.setPackageName()");
