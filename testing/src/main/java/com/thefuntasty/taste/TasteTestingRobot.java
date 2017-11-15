@@ -1,6 +1,8 @@
 package com.thefuntasty.taste;
 
+import android.content.Context;
 import android.os.RemoteException;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.StaleObjectException;
 import android.support.test.uiautomator.UiDevice;
@@ -18,11 +20,13 @@ import static org.junit.Assert.assertTrue;
 
 public class TasteTestingRobot {
 
+	private Context context;
 	private UiDevice testDevice;
 	private TasteTestingConfig config;
 	private Faker faker = new Faker();
 
 	public TasteTestingRobot(UiDevice testDevice, TasteTestingConfig config) {
+		this.context = InstrumentationRegistry.getContext();
 		this.testDevice = testDevice;
 		this.config = config;
 	}
@@ -556,5 +560,9 @@ public class TasteTestingRobot {
 
 	public void waitForNextActivity() {
 		testDevice.waitForWindowUpdate(null, config.getViewTimeout());
+	}
+
+	public String getString(int resourceId) {
+		return context.getString(resourceId);
 	}
 }
