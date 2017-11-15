@@ -26,7 +26,7 @@ public class TasteTestingRobot {
 	private Faker faker = new Faker();
 
 	public TasteTestingRobot(UiDevice testDevice, TasteTestingConfig config) {
-		this.context = InstrumentationRegistry.getContext();
+		this.context = InstrumentationRegistry.getTargetContext();
 		this.testDevice = testDevice;
 		this.config = config;
 	}
