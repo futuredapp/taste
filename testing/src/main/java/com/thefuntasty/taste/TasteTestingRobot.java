@@ -565,4 +565,8 @@ public class TasteTestingRobot {
 	public String getString(int resourceId) {
 		return context.getString(resourceId);
 	}
+
+	public String getViewId(int resourceId) {
+		return context.getResources().getResourceEntryName(resourceId);
+	}
 }
