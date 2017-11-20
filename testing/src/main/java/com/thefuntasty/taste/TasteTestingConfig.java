@@ -6,7 +6,6 @@ public class TasteTestingConfig {
 
 	private String packageName;
 
-	private int launchTimeout = 10000;
 	private int viewTimeout = 5000;
 	private int scrollSteps = 10;
 	private int scrollThreshold = 10;
@@ -14,10 +13,6 @@ public class TasteTestingConfig {
 
 	public TasteTestingConfig(String packageName) {
 		this.packageName = packageName;
-	}
-
-	public int getLaunchTimeout() {
-		return launchTimeout;
 	}
 
 	public int getViewTimeout() {
@@ -36,10 +31,6 @@ public class TasteTestingConfig {
 		return scrollTimeout;
 	}
 
-	public void setLaunchTimeout(int millis) {
-		this.launchTimeout = millis;
-	}
-
 	public void setViewTimeout(int millis) {
 		this.viewTimeout = millis;
 	}
@@ -47,6 +38,7 @@ public class TasteTestingConfig {
 	public void setscrollSteps(int scrollSteps) {
 		this.scrollSteps = scrollSteps;
 	}
+
 	public void setscrollThreshold(int scrollThreshold) {
 		this.scrollThreshold = scrollThreshold;
 	}
