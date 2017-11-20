@@ -38,13 +38,9 @@ public abstract class TasteTestingScenario {
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);    // Clear out any previous instances
 		context.startActivity(intent);
 
+		// Here you can wait for your app to load
 		afterSetUp();
-
-		// Wait for app to load
-		robot.waitForId(getWaitedForViewId(), config.getLaunchTimeout());
 	}
-
-	protected abstract String getWaitedForViewId();
 
 	protected abstract String getPackageName();
 
