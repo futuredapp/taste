@@ -3,6 +3,9 @@ package com.thefuntasty.taste;
 import android.os.Build;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class TasteTestingSpoonWrapper {
 
@@ -16,16 +19,9 @@ public class TasteTestingSpoonWrapper {
 	private static final String TEST_CASE_CLASS_CUCUMBER_JVM = "cucumber.runtime.model.CucumberFeature";
 	private static final String TEST_CASE_METHOD_CUCUMBER_JVM = "run";
 	private static final int MARSHMALLOW_API_LEVEL = 23;
-	private static boolean deleted = false;
 
-	// Spoon screenshots
 	public static File getScreenshotDirectory(String screenshotTitle) {
 		File directory = new File("/sdcard/app_spoon-screenshots");
-
-		if (!deleted) {
-			deletePath(directory, false);
-			deleted = true;
-		}
 
 		StackTraceElement testClass = findTestClassTraceElement(Thread.currentThread().getStackTrace());
 		String className = testClass.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
@@ -35,11 +31,12 @@ public class TasteTestingSpoonWrapper {
 		File dirMethod = new File(dirClass, methodName);
 		createDir(dirMethod);
 
-		File screenshotDirectory = dirMethod;
-		String screenshotName = System.currentTimeMillis() + "_" + screenshotTitle + ".png";
+		long currentTimeMillis = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss", Locale.getDefault());
+		Date date = new Date(currentTimeMillis);
 
-		File screenshotFile = new File(screenshotDirectory, screenshotName);
-		return screenshotFile;
+		String screenshotName = sdf.format(date) + "_" + screenshotTitle + ".png";
+		return new File(dirMethod, screenshotName);
 	}
 
 	private static void createDir(File dir) {
@@ -47,10 +44,6 @@ public class TasteTestingSpoonWrapper {
 		if (!parent.exists()) {
 			createDir(parent);
 		}
-		if (!dir.exists() && !dir.mkdirs()) {
-			//throw new IllegalAccessException("Unable to create output dir: " + dir.getAbsolutePath());
-		}
-		//chmodPlusRWX(dir);
 	}
 
 	static StackTraceElement findTestClassTraceElement(StackTraceElement[] trace) {
@@ -78,19 +71,5 @@ public class TasteTestingSpoonWrapper {
 		//Stacktrace length changed in M
 		int testClassTraceIndex = Build.VERSION.SDK_INT >= MARSHMALLOW_API_LEVEL ? (i - 2) : (i - 3);
 		return trace[testClassTraceIndex];
-	}
-
-	public static void deletePath(File path, boolean inclusive) {
-		if (path.isDirectory()) {
-			File[] children = path.listFiles();
-			if (children != null) {
-				for (File child : children) {
-					deletePath(child, true);
-				}
-			}
-		}
-		if (inclusive) {
-			path.delete();
-		}
 	}
 }
